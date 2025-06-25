@@ -2,6 +2,7 @@
 
 #include <string>
 #include <concepts>
+#include "MutationBase.hpp"
 
 namespace AdaptiveOA {
 
@@ -31,14 +32,14 @@ namespace AdaptiveOA {
             static_cast<Derived*>(this)->do_randomize();
         }
 
-        template<typename Mutation>
+        template<MutationLike Mutation>
         void mutate(const Mutation& mutation) {
             static_assert(requires(Derived& d) { d.do_mutate(mutation); },
             "Derived class does not implement do_mutate(Mutation).");
             static_cast<Derived*>(this)->do_mutate(mutation);
         }
 
-        template<typename Mutation>
+        template<MutationLike Mutation>
         void reverse_last_mutation(const Mutation& mutation) {
             static_assert(requires(Derived& d) { d.do_reverse_mutation(mutation); },
             "Derived class does not implement do_reverse_mutation(Mutation).");
