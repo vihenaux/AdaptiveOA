@@ -4,13 +4,12 @@
 #include <concepts>
 #include "MutationBase.hpp"
 
-namespace AdaptiveOA {
+namespace AdaptiveOA
+{
 
-    // ----------------------------------
-    // Concept: Static interface contract
-    // ----------------------------------
     template<typename T>
-    concept SolutionLike = requires(const T& sol) {
+    concept SolutionLike = requires(const T& sol)
+    {
         { sol.do_randomize() } -> std::same_as<void>;
         { sol.do_to_string() } -> std::convertible_to<std::string>;
     };
@@ -22,31 +21,35 @@ namespace AdaptiveOA {
     class SolutionBase
     {
         static_assert(SolutionLike<Derived>,
-        "Solution type class does not satisfy SolutionLike concept. "
-        "It must implement: do_randomize(), do_to_string(), "
-        "and template methods do_mutate(Mutation), do_reverse_mutation(Mutation).");
+            "Solution type class does not satisfy SolutionLike concept. "
+            "It must implement: do_randomize(), do_to_string(), "
+            "and template methods do_mutate(Mutation), do_reverse_mutation(Mutation).");
 
         public:
 
-        void randomize() {
+        void randomize()
+        {
             static_cast<Derived*>(this)->do_randomize();
         }
 
         template<MutationLike Mutation>
-        void mutate(const Mutation& mutation) {
+        void mutate(const Mutation& mutation)
+        {
             static_assert(requires(Derived& d) { d.do_mutate(mutation); },
             "Derived class does not implement do_mutate(Mutation).");
             static_cast<Derived*>(this)->do_mutate(mutation);
         }
 
         template<MutationLike Mutation>
-        void reverse_last_mutation(const Mutation& mutation) {
+        void reverse_last_mutation(const Mutation& mutation)
+        {
             static_assert(requires(Derived& d) { d.do_reverse_mutation(mutation); },
             "Derived class does not implement do_reverse_mutation(Mutation).");
             static_cast<Derived*>(this)->do_reverse_mutation(mutation);
         }
 
-        std::string to_string() const {
+        std::string to_string() const
+        {
             return static_cast<const Derived*>(this)->do_to_string();
         }
     };
