@@ -27,10 +27,10 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
 
 ### 📦 Core Components
 
-- [ ] **Define Mutation Interface**
-  - [ ] Assess whether an interface is needed
-  - [ ] Options: CRTP base, simple base class, concept-only
-  - [ ] Design pattern for reversible mutations (e.g. `apply()` / `undo()`)
+- [x] **Define Mutation Interface**
+  - [x] Assess whether an interface is needed
+  - [x] Options: CRTP base, simple base class, concept-only
+  - [x] Design pattern for reversible mutations (e.g. `apply()` / `undo()`)
 
 - [ ] **Define `NeighborhoodBase`**
   - [ ] CRTP base class for generating neighbors
