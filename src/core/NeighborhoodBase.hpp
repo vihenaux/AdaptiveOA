@@ -14,7 +14,7 @@ namespace AdaptiveOA
         typename T::Mutation;
 
         requires SolutionLike<typename T::Solution>
-        requires MutationLike<typename T::Mutation, typename T::Solution>;
+        requires MutationLike<typename T::Mutation>;
 
         { n.do_next_mutation() } -> std::same_as<typename T::Mutation>;
         { n.do_accept_mutation(std::declval<const typename T::Mutation&>()) } -> std::same_as<void>;
