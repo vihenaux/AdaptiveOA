@@ -7,11 +7,11 @@
 namespace AdaptiveOA
 {
 
-    template<typename T>
-    concept SolutionLike = requires(const T& sol)
+    template<typename S>
+    concept SolutionLike = requires(S sol, const S const_sol)
     {
         { sol.do_randomize() } -> std::same_as<void>;
-        { sol.do_to_string() } -> std::convertible_to<std::string>;
+        { const_sol.do_to_string() } -> std::convertible_to<std::string>;
     };
 
     // ---------------------------

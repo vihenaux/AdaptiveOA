@@ -7,7 +7,7 @@ namespace AdaptiveOA
 {
 
     template<typename Mutation>
-    concept MutationLike = requires(Mutation m)
+    concept MutationLike = requires(const Mutation m)
     {
         { m.to_string() } -> std::convertible_to<std::string>;
     };

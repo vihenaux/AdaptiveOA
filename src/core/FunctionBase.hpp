@@ -5,7 +5,8 @@
 #include "SolutionBase.hpp"
 #include "MutationBase.hpp"
 
-namespace AdaptiveOA {
+namespace AdaptiveOA
+{
 
     // ---------------------------
     // Score Type
@@ -13,31 +14,32 @@ namespace AdaptiveOA {
     using Score = uint64_t;
 
     template<typename F>
-    concept FunctionLike = requires(F f, typename F::Solution& sol, const typename F::Solution& const_sol)
+    concept FunctionLike = requires(const F f)
     {
         typename F::Solution;
 
         requires SolutionLike<typename F::Solution>;
 
-        { f.evaluate(sol) } -> std::convertible_to<Score>;
+        { f.evaluate(std::declval<const typename F::Solution&>()) } -> std::convertible_to<Score>;
     };
 
     // ---------------------------
     // CRTP Base Class : Function
     // ---------------------------
     template<typename Derived>
-    class FunctionBase {
+    class FunctionBase
+    {
         public:
         using Solution = typename Derived::Solution;
 
-        Score operator()(const Solution& sol)
+        Score operator()(const Solution& sol) const
         {
             ++m_nb_evaluations;
             return static_cast<Derived*>(this)->evaluate(sol);
         }
 
         template<MutationLike Mutation>
-        Score operator()(const Solution& sol, const Mutation& mutation)
+        Score operator()(const Solution& sol, const Mutation& mutation) const
         {
             ++m_nb_evaluations;
             return static_cast<Derived*>(this)->evaluate(sol, mutation);
@@ -45,11 +47,11 @@ namespace AdaptiveOA {
 
         std::size_t get_nb_evaluations() const { return m_nb_evaluations; }
 
-        private:
+        protected:
 
         // Default incremental evaluation
         template<MutationLike Mutation>
-        Score evaluate(const Solution& sol, const Mutation& mutation)
+        Score evaluate(const Solution& sol, const Mutation& mutation) const
         {
             sol.mutate(mutation);
             Score score = (*this)(sol);
@@ -57,7 +59,9 @@ namespace AdaptiveOA {
             return score;
         }
 
-        std::size_t m_nb_evaluations = 0;
+        private:
+
+        mutable std::size_t m_nb_evaluations = 0;
     };
 
 } // namespace AdaptiveOA
