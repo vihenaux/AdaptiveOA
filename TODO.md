@@ -42,10 +42,10 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
   - [ ] Should support pluggable mutation + neighborhood + evaluation function
   - [ ] Design unified interface: `run(Solution&)` or similar
 
-- [ ] **Define `FunctionBase`**
-  - [ ] CRTP base for fitness/evaluation functions
-  - [ ] Ensure compatibility with solution types
-  - [ ] May include normalization/scaling
+- [x] **Define `FunctionBase`**
+  - [x] CRTP base for fitness/evaluation functions
+  - [x] Ensure compatibility with solution types
+  - [x] May include normalization/scaling
 
 - [ ] **Implement `BitstringSolution`**
   - [ ] Inherits from `SolutionBase<BitstringSolution>`

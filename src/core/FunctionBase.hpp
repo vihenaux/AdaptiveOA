@@ -25,7 +25,6 @@ namespace AdaptiveOA {
     // ---------------------------
     // CRTP Base Class : Function
     // ---------------------------
-
     template<typename Derived>
     class FunctionBase {
         public:
