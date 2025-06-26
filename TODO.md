@@ -32,10 +32,10 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
   - [x] Options: CRTP base, simple base class, concept-only
   - [x] Design pattern for reversible mutations (e.g. `apply()` / `undo()`)
 
-- [ ] **Define `NeighborhoodBase`**
-  - [ ] CRTP base class for generating neighbors
-  - [ ] Should operate over a specific `SolutionLike`
-  - [ ] Possibly templated on the `Mutation` type
+- [x] **Define `NeighborhoodBase`**
+  - [x] CRTP base class for generating neighbors
+  - [x] Should operate over a specific `SolutionLike`
+  - [x] Possibly templated on the `Mutation` type
 
 - [ ] **Define `AlgorithmBase`**
   - [ ] CRTP base class for local search (and eventually other optimization algorithms)
