@@ -47,6 +47,24 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
   - [x] Ensure compatibility with solution types
   - [x] May include normalization/scaling
 
+### Algorithms
+
+- [ ] **Implement `LocalSearch` **
+  - [x] PivotRuleBase
+  - [x] First improvement
+  - [ ] Best improvement
+  - [ ] Simulated annealing
+  - [ ] Tabu
+  - [ ] PivotRuleFactory
+  - [ ] TerminateConditionBase
+  - [ ] NoLimit
+  - [ ] TimeLimit
+  - [ ] IterationLimit
+  - [ ] FunctionCallLimit
+  - [ ] TerminateConditionFactory
+    
+### Solutions
+
 - [ ] **Implement `BitstringSolution`**
   - [ ] Inherits from `SolutionBase<BitstringSolution>`
   - [ ] Stores a `std::vector<bool>` or bitset
