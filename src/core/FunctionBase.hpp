@@ -29,20 +29,27 @@ namespace AdaptiveOA
     template<typename Derived>
     class FunctionBase
     {
+        static_assert(FunctionLike<Derived>,
+        "Derived class does not satisfy FunctionLike concept.");
+
         public:
         using Solution = typename Derived::Solution;
 
         Score operator()(const Solution& sol) const
         {
             ++m_nb_evaluations;
-            return static_cast<Derived*>(this)->evaluate(sol);
+            Score evaluation = static_cast<Derived*>(this)->evaluate(sol);
+            sol.set_score(evaluation);
+            return evaluation;
         }
 
         template<MutationLike Mutation>
         Score operator()(const Solution& sol, const Mutation& mutation) const
         {
             ++m_nb_evaluations;
-            return static_cast<Derived*>(this)->evaluate(sol, mutation);
+            Score evaluation = static_cast<Derived*>(this)->evaluate(sol, mutation);
+            mutation.set_score(evaluation);
+            return evaluation;
         }
 
         std::size_t get_nb_evaluations() const { return m_nb_evaluations; }

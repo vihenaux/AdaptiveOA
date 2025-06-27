@@ -29,6 +29,9 @@ namespace AdaptiveOA
     >
     class AlgorithmBase
     {
+        static_assert(AlgorithmLike<Derived>,
+        "Derived class does not satisfy AlgorithmLike concept.");
+
         public:
 
         using Solution = SolutionT;
