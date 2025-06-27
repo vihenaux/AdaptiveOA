@@ -37,10 +37,10 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
   - [x] Should operate over a specific `SolutionLike`
   - [x] Possibly templated on the `Mutation` type
 
-- [ ] **Define `AlgorithmBase`**
-  - [ ] CRTP base class for local search (and eventually other optimization algorithms)
-  - [ ] Should support pluggable mutation + neighborhood + evaluation function
-  - [ ] Design unified interface: `run(Solution&)` or similar
+- [x] **Define `AlgorithmBase`**
+  - [x] CRTP base class for local search (and eventually other optimization algorithms)
+  - [x] Should support pluggable mutation + neighborhood + evaluation function
+  - [x] Design unified interface: `run(Solution&)` or similar
 
 - [x] **Define `FunctionBase`**
   - [x] CRTP base for fitness/evaluation functions
