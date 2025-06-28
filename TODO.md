@@ -52,7 +52,7 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
 - [ ] **Implement `LocalSearch` **
   - [x] PivotRuleBase
   - [x] First improvement
-  - [ ] Best improvement
+  - [x] Best improvement
   - [ ] Simulated annealing
   - [ ] Tabu
   - [ ] PivotRuleFactory

@@ -21,18 +21,21 @@ namespace AdaptiveOA
         {
             Score current_score = sol.get_score().value_or(f(sol));
 
+            std::optional<typename Neighborhood::Mutation> best_mutation;
+
             while(nh.mutation_available())
             {
-                auto mutation = nh.next_mutation();
+                auto& mutation = nh.next_mutation();
                 Score new_score = f(sol, mutation);
 
-                if (new_score > current_score)
+                if((best_mutation && best_mutation.value().get_score() < new_score) ||
+                    new_score > current_score)
                 {
-                    return mutation;
+                    best_mutation = std::move(mutation);
                 }
             }
 
-            return std::nullopt;
+            return best_mutation;
         }
     };
 
