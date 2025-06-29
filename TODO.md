@@ -57,7 +57,7 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
   - [ ] Tabu
   - [x] PivotRuleFactory
   - [x] TerminateConditionBase
-  - [ ] NoLimit
+  - [x] NoLimit
   - [ ] TimeLimit
   - [ ] IterationLimit
   - [ ] FunctionCallLimit
