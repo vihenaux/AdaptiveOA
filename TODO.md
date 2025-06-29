@@ -49,7 +49,7 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
 
 ### Algorithms
 
-- [ ] **Implement `LocalSearch` **
+- [x] **Implement `LocalSearch` **
   - [x] PivotRuleBase
   - [x] First improvement
   - [x] Best improvement
