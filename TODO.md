@@ -56,7 +56,7 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
   - [ ] Simulated annealing
   - [ ] Tabu
   - [x] PivotRuleFactory
-  - [ ] TerminateConditionBase
+  - [x] TerminateConditionBase
   - [ ] NoLimit
   - [ ] TimeLimit
   - [ ] IterationLimit
