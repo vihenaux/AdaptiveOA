@@ -61,7 +61,7 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
   - [ ] TimeLimit
   - [ ] IterationLimit
   - [ ] FunctionCallLimit
-  - [ ] TerminateConditionFactory
+  - [x] TerminateConditionFactory
     
 ### Solutions
 
