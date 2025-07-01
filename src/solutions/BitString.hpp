@@ -2,20 +2,19 @@
 
 #include <vector>
 #include <string>
-#include <random>
 #include <sstream>
-#include "SolutionBase.hpp"
-#include "MutationBase.hpp"
-#include "Random.hpp"
+#include "../core/SolutionBase.hpp"
+#include "../utils/Random.hpp"
+#include "../mutations/BitFlip.hpp"
 
 namespace AdaptiveOA
 {
 
-    class BitStringSolution : public SolutionBase<BitStringSolution>
+    class BitString : public SolutionBase<BitString>
     {
         public:
 
-        BitStringSolution(std::size_t size) : m_bits(size)
+        BitString(std::size_t size) : m_bits(size)
         {
             randomize();
         }
@@ -30,11 +29,9 @@ namespace AdaptiveOA
             return m_bits[index];
         }
 
-        friend SolutionBase<BitStringSolution>;
+        friend SolutionBase<BitString>;
 
         private:
-
-        std::vector<bool> m_bits;
 
         void do_randomize()
         {
@@ -53,6 +50,18 @@ namespace AdaptiveOA
             }
             return oss.str();
         }
+
+        void do_mutate(const BitFlip& bitflip)
+        {
+            m_bits[bitflip.get_bit()] = !m_bits[bitflip.get_bit()];
+        }
+
+        void do_reverse_mutation(const BitFlip& bitflip)
+        {
+            m_bits[bitflip.get_bit()] = !m_bits[bitflip.get_bit()];
+        }
+
+        std::vector<bool> m_bits;
     };
 
 } // namespace AdaptiveOA
