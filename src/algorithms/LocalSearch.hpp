@@ -8,6 +8,9 @@
 #include "local_search_specifics/TerminateConditionBase.hpp"
 #include "local_search_specifics/TerminateConditionFactory.hpp"
 #include "local_search_specifics/PivotRuleFactory.hpp"
+#include "local_search_specifics/pivot_rules/BestImprovement.hpp"
+#include "local_search_specifics/pivot_rules/FirstImprovement.hpp"
+#include "local_search_specifics/terminate_conditions/NoLimit.hpp"
 
 namespace AdaptiveOA {
 
@@ -51,5 +54,11 @@ namespace AdaptiveOA {
             }
         }
     };
+
+    template<SolutionLike SolutionT, FunctionLike FunctionT, NeighborhoodLike Neighborhood>
+    using FirstImprovementHillClimber = LocalSearch<SolutionT, FunctionT, Neighborhood, FirstImprovement, NoLimit>;
+
+    template<SolutionLike SolutionT, FunctionLike FunctionT, NeighborhoodLike Neighborhood>
+    using BestImprovementHillClimber = LocalSearch<SolutionT, FunctionT, Neighborhood, FirstImprovement, NoLimit>;
 
 } // namespace AdaptiveOA
