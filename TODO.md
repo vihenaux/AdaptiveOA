@@ -65,11 +65,11 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
     
 ### Solutions
 
-- [ ] **Implement `BitstringSolution`**
-  - [ ] Inherits from `SolutionBase<BitstringSolution>`
-  - [ ] Stores a `std::vector<bool>` or bitset
-  - [ ] Implements required `do_*` methods
-  - [ ] Add example mutation (bit flip)
+- [x] **Implement `BitstringSolution`**
+  - [x] Inherits from `SolutionBase<BitstringSolution>`
+  - [x] Stores a `std::vector<bool>` or bitset
+  - [x] Implements required `do_*` methods
+  - [x] Add example mutation (bit flip)
 
 ---
 
@@ -92,7 +92,7 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
 ## 🌱 Future Work
 
 - [ ] Add support for multi-objective optimization
-- [ ] Add benchmark problems (e.g. MAXSAT, TSP, etc.)
+- [x] Add benchmark problems (e.g. MAXSAT, TSP, etc.)
 - [ ] Add performance profiling hooks
 - [ ] Add serialization for saving solutions/functions
 - [ ] Parallel/local-distributed execution model
