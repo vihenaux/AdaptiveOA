@@ -1,13 +1,15 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <concepts>
+#include "Score.hpp"
 
 namespace AdaptiveOA
 {
 
     template<typename Mutation>
-    concept MutationLike = requires(const Mutation m)
+    concept MutationLike = requires( Mutation m)
     {
         { m.do_to_string() } -> std::convertible_to<std::string>;
     };
@@ -19,10 +21,13 @@ namespace AdaptiveOA
     template<typename Derived>
     class MutationBase
     {
-        static_assert(MutationLike<Derived>,
-        "Derived class does not satisfy MutationLike concept.");
-
         public:
+
+        MutationBase()
+        {
+            static_assert(MutationLike<Derived>,
+                "Derived class does not satisfy MutationLike concept.");
+        }
 
         void set_score(Score s) { m_score = s; }
         std::optional<Score> get_score() const { return m_score; }

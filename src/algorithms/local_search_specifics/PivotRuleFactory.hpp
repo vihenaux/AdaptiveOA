@@ -10,7 +10,8 @@ namespace AdaptiveOA
     {
         public:
 
-        template<PivotRuleLike PivotRule>
+        template<typename PivotRule, typename Neighborhood, typename Solution, typename Function>
+        requires PivotRuleLike<PivotRule, Neighborhood, Solution, Function>
         static PivotRule create()
         {
             static_assert(std::is_default_constructible_v<PivotRule>,

@@ -2,38 +2,34 @@
 
 #include <concepts>
 #include <cstdint>
+#include "Score.hpp"
 #include "SolutionBase.hpp"
 #include "MutationBase.hpp"
 
 namespace AdaptiveOA
 {
 
-    // ---------------------------
-    // Score Type
-    // ---------------------------
-    using Score = uint64_t;
-
-    template<typename F>
-    concept FunctionLike = requires(const F f)
+    template<typename F, typename S>
+    concept FunctionLike =
+            SolutionLike<S> &&
+            requires(const F f, const S& s)
     {
-        typename F::Solution;
-
-        requires SolutionLike<typename F::Solution>;
-
-        { f.evaluate(std::declval<const typename F::Solution&>()) } -> std::convertible_to<Score>;
+        { f.evaluate(s) } -> std::convertible_to<Score>;
     };
 
     // ---------------------------
     // CRTP Base Class : Function
     // ---------------------------
-    template<typename Derived>
+    template<typename Derived, SolutionLike Solution>
     class FunctionBase
     {
-        static_assert(FunctionLike<Derived>,
-        "Derived class does not satisfy FunctionLike concept.");
-
         public:
-        using Solution = typename Derived::Solution;
+
+        FunctionBase()
+        {
+            static_assert(FunctionLike<Derived, Solution>,
+                "Derived class does not satisfy FunctionLike concept.");
+        }
 
         Score operator()(const Solution& sol) const
         {

@@ -25,17 +25,21 @@ namespace AdaptiveOA
     template<
         typename Derived,
         SolutionLike SolutionT,
-        FunctionLike FunctionT
+        typename FunctionT
     >
+    requires FunctionLike<FunctionT, SolutionT>
     class AlgorithmBase
     {
-        static_assert(AlgorithmLike<Derived>,
-        "Derived class does not satisfy AlgorithmLike concept.");
-
         public:
 
         using Solution = SolutionT;
         using Function = FunctionT;
+
+        AlgorithmBase()
+        {
+            static_assert(AlgorithmLike<Derived>,
+                "Derived class does not satisfy AlgorithmLike concept.");
+        }
 
         void run(Solution& start, const Function& fitness_function) {
             static_cast<Derived*>(this)->do_run(start, fitness_function);

@@ -13,7 +13,7 @@ namespace AdaptiveOA
         typename T::Solution;
         typename T::Mutation;
 
-        requires SolutionLike<typename T::Solution>
+        requires SolutionLike<typename T::Solution>;
         requires MutationLike<typename T::Mutation>;
 
         { n.do_mutation_available() } -> std::same_as<bool>;
@@ -27,12 +27,16 @@ namespace AdaptiveOA
     template<typename Derived>
     class NeighborhoodBase
     {
-        static_assert(NeighborhoodLike<Derived>,
-            "Derived class does not satisfy NeighborhoodLike concept.");
-
         public:
+
         using Solution  = typename Derived::Solution;
         using Mutation  = typename Derived::Mutation;
+
+        NeighborhoodBase()
+        {
+            static_assert(NeighborhoodLike<Derived>,
+                "Derived class does not satisfy NeighborhoodLike concept.");
+        }
 
         bool mutation_available() const
         {

@@ -15,16 +15,17 @@
 namespace AdaptiveOA {
 
     template<
-            SolutionLike SolutionT,
-            FunctionLike FunctionT,
+            SolutionLike Solution,
+            typename Function,
             NeighborhoodLike Neighborhood,
             typename PivotRule,
             typename TerminateCondition
     >
-    requires PivotRuleLike<PivotRule, Neighborhood, SolutionT, FunctionT> &&
-            TerminateConditionLike<TerminateCondition, FunctionT>
+    requires FunctionLike<Function, Solution> &&
+            PivotRuleLike<PivotRule, Neighborhood, Solution, Function> &&
+            TerminateConditionLike<TerminateCondition, Function, Solution>
     class LocalSearch : public AlgorithmBase<
-            LocalSearch<SolutionT, FunctionT, Neighborhood, PivotRule, TerminateCondition>,
+            LocalSearch<Solution, Function, Neighborhood, PivotRule, TerminateCondition>,
             Solution,
             Function>
     {
@@ -35,7 +36,7 @@ namespace AdaptiveOA {
             PivotRule& pivot_rule = PivotRuleFactory::create<PivotRule>();
             TerminateCondition& terminate_condition = TerminateConditionFactory::create<TerminateCondition, Function>();
 
-            Fitness current_score = objective_function(solution);
+            Score current_score = objective_function(solution);
             set_best_solution(solution, current_score);
 
             // TODO: Pass search space info to the neighborhood
@@ -47,18 +48,20 @@ namespace AdaptiveOA {
                     break;
                 solution.mutate(*chosen_mutation);
 
-                if(solution.get_score() > best_score())
+                if(solution.get_score() > this->best_score())
                     set_best_solution(solution, solution.get_score());
 
-                terminate_condition.update(f);*
+                terminate_condition.update(objective_function);
             }
         }
     };
 
-    template<SolutionLike SolutionT, FunctionLike FunctionT, NeighborhoodLike Neighborhood>
-    using FirstImprovementHillClimber = LocalSearch<SolutionT, FunctionT, Neighborhood, FirstImprovement, NoLimit>;
+    template<SolutionLike Solution, typename Function, NeighborhoodLike Neighborhood>
+    requires FunctionLike<Function, Solution>
+    using FirstImprovementHillClimber = LocalSearch<Solution, Function, Neighborhood, FirstImprovement, NoLimit>;
 
-    template<SolutionLike SolutionT, FunctionLike FunctionT, NeighborhoodLike Neighborhood>
-    using BestImprovementHillClimber = LocalSearch<SolutionT, FunctionT, Neighborhood, FirstImprovement, NoLimit>;
+    template<SolutionLike Solution, typename Function, NeighborhoodLike Neighborhood>
+    requires FunctionLike<Function, Solution>
+    using BestImprovementHillClimber = LocalSearch<Solution, Function, Neighborhood, FirstImprovement, NoLimit>;
 
 } // namespace AdaptiveOA

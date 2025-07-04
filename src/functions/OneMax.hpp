@@ -7,13 +7,11 @@
 namespace AdaptiveOA
 {
 
-    class OneMax : public FunctionBase<OneMax>
+    class OneMax : public FunctionBase<OneMax, BitString>
     {
         public:
 
-        using Solution = BitStringSolution;
-
-        Score evaluate(const Solution& sol) const
+        Score evaluate(const BitString& sol) const
         {
             Score count = 0;
             for (std::size_t i = 0; i < sol.size(); ++i)
@@ -23,7 +21,7 @@ namespace AdaptiveOA
             return count;
         }
 
-        Score evaluate(const Solution& sol, const BitFlip& mutation) const
+        Score evaluate(const BitString& sol, const BitFlip& mutation) const
         {
             return sol.get_score() + ((sol[mutation.get_bit()]) ? -1 : 1);
         }

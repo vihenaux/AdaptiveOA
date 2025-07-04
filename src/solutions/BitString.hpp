@@ -35,9 +35,9 @@ namespace AdaptiveOA
 
         void do_randomize()
         {
-            for (auto& bit : m_bits)
+            for(unsigned int i(0); m_bits.size(); ++i)
             {
-                bit = Random::random_bool();
+                m_bits[i] = Random::get_bool();
             }
         }
 

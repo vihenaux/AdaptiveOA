@@ -4,7 +4,7 @@
 #include <concepts>
 #include <optional>
 #include "MutationBase.hpp"
-#include "FunctionBase.hpp"
+#include "Score.hpp"
 
 namespace AdaptiveOA
 {
@@ -12,8 +12,8 @@ namespace AdaptiveOA
     template<typename S>
     concept SolutionLike = requires(S sol, const S const_sol)
     {
-        { sol.do_randomize() } -> std::same_as<void>;
-        { const_sol.do_to_string() } -> std::convertible_to<std::string>;
+        { sol.randomize() } -> std::same_as<void>;
+        { const_sol.to_string() } -> std::convertible_to<std::string>;
     };
 
     // ---------------------------
@@ -22,11 +22,6 @@ namespace AdaptiveOA
     template<typename Derived>
     class SolutionBase
     {
-        static_assert(SolutionLike<Derived>,
-            "Solution type class does not satisfy SolutionLike concept. "
-            "It must implement: do_randomize(), do_to_string(), "
-            "and template methods do_mutate(Mutation), do_reverse_mutation(Mutation).");
-
         public:
 
         void randomize()

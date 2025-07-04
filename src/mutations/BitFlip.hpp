@@ -1,9 +1,11 @@
 #pragma once
 
+#include <sstream>
 #include "../core/MutationBase.hpp"
 
 namespace AdaptiveOA
 {
+
     class BitFlip : public MutationBase<BitFlip>
     {
         public:
@@ -16,7 +18,6 @@ namespace AdaptiveOA
             return m_bit;
         }
 
-        private:
 
         std::string do_to_string() const
         {
@@ -24,6 +25,9 @@ namespace AdaptiveOA
             oss << m_bit;
             return oss.str();
         }
+
+        private:
+
 
         std::size_t m_bit;
     };
