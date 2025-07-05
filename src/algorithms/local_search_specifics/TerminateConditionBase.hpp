@@ -7,10 +7,9 @@
 namespace AdaptiveOA
 {
 
-    template<typename T, typename Function, typename Solution>
+    template<typename T, typename Function>
     concept TerminateConditionLike =
-            SolutionLike<Solution> &&
-            FunctionLike<Function, Solution> &&
+            FunctionLike<Function> &&
             requires(T condition, const Function& f)
     {
         { condition.update(f) } -> std::same_as<void>;

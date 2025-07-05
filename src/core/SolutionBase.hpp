@@ -10,10 +10,13 @@ namespace AdaptiveOA
 {
 
     template<typename S>
-    concept SolutionLike = requires(S sol, const S const_sol)
+    concept SolutionLike = requires(S sol, const S const_sol, Score score)
     {
         { sol.randomize() } -> std::same_as<void>;
         { const_sol.to_string() } -> std::convertible_to<std::string>;
+        { sol.set_score(score) } -> std::same_as<void>;
+        { sol.get_score() } -> std::same_as<std::optional<Score>>;
+        { sol.invalidate_score() } -> std::same_as<void>;
     };
 
     // ---------------------------
@@ -35,8 +38,7 @@ namespace AdaptiveOA
         {
             m_score_save.swap(m_score);
             m_score = mutation.get_score();
-            static_assert(requires(Derived& d) { d.do_mutate(mutation); },
-            "Derived class does not implement do_mutate(Mutation).");
+
             static_cast<Derived*>(this)->do_mutate(mutation);
         }
 
@@ -44,8 +46,7 @@ namespace AdaptiveOA
         void reverse_last_mutation(const Mutation& mutation)
         {
             m_score.swap(m_score_save);
-            static_assert(requires(Derived& d) { d.do_reverse_mutation(mutation); },
-            "Derived class does not implement do_reverse_mutation(Mutation).");
+
             static_cast<Derived*>(this)->do_reverse_mutation(mutation);
         }
 

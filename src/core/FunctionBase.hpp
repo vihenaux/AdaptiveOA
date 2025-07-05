@@ -9,32 +9,29 @@
 namespace AdaptiveOA
 {
 
-    template<typename F, typename S>
-    concept FunctionLike =
-            SolutionLike<S> &&
-            requires(const F f, const S& s)
+    template<typename F>
+    concept FunctionLike = requires(const F f)
     {
-        { f.evaluate(s) } -> std::convertible_to<Score>;
+        typename F::Solution;
+
+        { f(std::declval<const typename F::Solution&>()) } -> std::convertible_to<Score>;
+        { f.get_nb_evaluations() } -> std::same_as<std::size_t>;
     };
 
     // ---------------------------
     // CRTP Base Class : Function
     // ---------------------------
-    template<typename Derived, SolutionLike Solution>
+    template<typename Derived, SolutionLike SolutionT>
     class FunctionBase
     {
         public:
 
-        FunctionBase()
-        {
-            static_assert(FunctionLike<Derived, Solution>,
-                "Derived class does not satisfy FunctionLike concept.");
-        }
+        using Solution = SolutionT;
 
         Score operator()(const Solution& sol) const
         {
             ++m_nb_evaluations;
-            Score evaluation = static_cast<Derived*>(this)->evaluate(sol);
+            Score evaluation = static_cast<const Derived*>(this)->evaluate(sol);
             sol.set_score(evaluation);
             return evaluation;
         }
@@ -43,7 +40,7 @@ namespace AdaptiveOA
         Score operator()(const Solution& sol, const Mutation& mutation) const
         {
             ++m_nb_evaluations;
-            Score evaluation = static_cast<Derived*>(this)->evaluate(sol, mutation);
+            Score evaluation = static_cast<const Derived*>(this)->evaluate(sol, mutation);
             mutation.set_score(evaluation);
             return evaluation;
         }

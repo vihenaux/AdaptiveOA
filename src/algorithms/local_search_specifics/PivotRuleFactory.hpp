@@ -1,6 +1,8 @@
 #pragma once
 
-#include <type_traits>
+#include "../../core/NeighborhoodBase.hpp"
+#include "../../core/SolutionBase.hpp"
+#include "../../core/FunctionBase.hpp"
 #include "PivotRuleBase.hpp"
 
 namespace AdaptiveOA
@@ -14,8 +16,6 @@ namespace AdaptiveOA
         requires PivotRuleLike<PivotRule, Neighborhood, Solution, Function>
         static PivotRule create()
         {
-            static_assert(std::is_default_constructible_v<PivotRule>,
-                          "This pivot rule requires a custom factory specialization.");
             return PivotRule{};
         }
     };

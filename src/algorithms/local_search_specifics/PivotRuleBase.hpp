@@ -14,7 +14,7 @@ namespace AdaptiveOA {
     concept PivotRuleLike =
             NeighborhoodLike<Neighborhood> &&
             SolutionLike<Solution> &&
-            FunctionLike<Function, Solution> &&
+            FunctionLike<Function> &&
             requires(Rule rule, Neighborhood& nh, Solution& sol, const Function& f)
     {
         typename Neighborhood::Mutation;

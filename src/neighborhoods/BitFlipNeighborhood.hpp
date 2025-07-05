@@ -9,7 +9,7 @@
 namespace AdaptiveOA
 {
 
-    class BitFlipNeighborhood : public NeighborhoodBase<BitFlipNeighborhood>
+    class BitFlipNeighborhood : public NeighborhoodBase<BitFlipNeighborhood, BitFlip>
     {
         public:
 
@@ -25,7 +25,7 @@ namespace AdaptiveOA
             }
         }
 
-        friend NeighborhoodBase<BitFlipNeighborhood>;
+        friend NeighborhoodBase<BitFlipNeighborhood, BitFlip>;
 
         private:
 
@@ -41,7 +41,7 @@ namespace AdaptiveOA
         {
             std::size_t neighbor_index = Random::get_uint_range(m_current_neighbor, m_neighbors.size()-1);
             std::swap(m_neighbors[m_current_neighbor], m_neighbors[neighbor_index]);
-            return BitFlip{ m_neighbors[m_current_index++] };
+            return BitFlip{ m_neighbors[m_current_neighbor++] };
         }
 
         void do_accept_mutation(const Mutation&)

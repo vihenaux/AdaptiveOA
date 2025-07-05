@@ -23,7 +23,7 @@ namespace AdaptiveOA
 
         Score evaluate(const BitString& sol, const BitFlip& mutation) const
         {
-            return sol.get_score() + ((sol[mutation.get_bit()]) ? -1 : 1);
+            return (*sol.get_score()) + ((sol[mutation.get_bit()]) ? -1 : 1);
         }
     };
 

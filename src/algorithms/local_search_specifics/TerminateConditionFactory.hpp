@@ -11,12 +11,10 @@ namespace AdaptiveOA
     {
         public:
 
-        template<typename TerminateCondition, typename Function, SolutionLike Solution>
-        requires TerminateConditionLike<TerminateCondition, Function, Solution> && FunctionLike<Function, Solution>
+        template<typename TerminateCondition, FunctionLike Function>
+        requires TerminateConditionLike<TerminateCondition, Function>
         static TerminateCondition create()
         {
-            static_assert(std::is_default_constructible_v<TerminateCondition>,
-                          "This terminate condition requires a custom factory specialization.");
             return TerminateCondition{};
         }
     };

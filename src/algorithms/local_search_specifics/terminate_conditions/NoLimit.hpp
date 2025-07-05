@@ -11,8 +11,7 @@ namespace AdaptiveOA
     {
         public:
 
-        template<typename Function, SolutionLike Solution>
-        requires FunctionLike<Function, Solution>
+        template<FunctionLike Function>
         void update(const Function&) { }
 
         bool should_terminate() const

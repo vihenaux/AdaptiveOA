@@ -15,9 +15,8 @@ namespace AdaptiveOA
         template<
                 NeighborhoodLike Neighborhood,
                 SolutionLike Solution,
-                typename Function
+                FunctionLike Function
         >
-        requires FunctionLike<Function, Solution>
         std::optional<typename Neighborhood::Mutation> choose(Neighborhood& nh, Solution& sol, const Function& f) const
         {
             Score current_score = sol.get_score().value_or(f(sol));

@@ -9,9 +9,11 @@ namespace AdaptiveOA
 {
 
     template<typename Mutation>
-    concept MutationLike = requires( Mutation m)
+    concept MutationLike = requires(Mutation m, Score score)
     {
-        { m.do_to_string() } -> std::convertible_to<std::string>;
+        { m.to_string() } -> std::convertible_to<std::string>;
+        { m.set_score(score) } -> std::same_as<void>;
+        { m.get_score() } -> std::same_as<std::optional<Score>>;
     };
 
 
@@ -23,13 +25,7 @@ namespace AdaptiveOA
     {
         public:
 
-        MutationBase()
-        {
-            static_assert(MutationLike<Derived>,
-                "Derived class does not satisfy MutationLike concept.");
-        }
-
-        void set_score(Score s) { m_score = s; }
+        void set_score(Score s) const { m_score = s; }
         std::optional<Score> get_score() const { return m_score; }
 
         std::string to_string() const
@@ -39,7 +35,7 @@ namespace AdaptiveOA
 
         private:
 
-        std::optional<Score> m_score;
+        mutable std::optional<Score> m_score;
     };
 
 } // namespace AdaptiveOA

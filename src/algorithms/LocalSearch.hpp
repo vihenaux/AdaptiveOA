@@ -16,14 +16,13 @@ namespace AdaptiveOA {
 
     template<
             SolutionLike Solution,
-            typename Function,
+            FunctionLike Function,
             NeighborhoodLike Neighborhood,
             typename PivotRule,
             typename TerminateCondition
     >
-    requires FunctionLike<Function, Solution> &&
-            PivotRuleLike<PivotRule, Neighborhood, Solution, Function> &&
-            TerminateConditionLike<TerminateCondition, Function, Solution>
+    requires PivotRuleLike<PivotRule, Neighborhood, Solution, Function> &&
+            TerminateConditionLike<TerminateCondition, Function>
     class LocalSearch : public AlgorithmBase<
             LocalSearch<Solution, Function, Neighborhood, PivotRule, TerminateCondition>,
             Solution,
@@ -33,14 +32,14 @@ namespace AdaptiveOA {
 
         void do_run(Solution& solution, const Function& objective_function)
         {
-            PivotRule& pivot_rule = PivotRuleFactory::create<PivotRule>();
-            TerminateCondition& terminate_condition = TerminateConditionFactory::create<TerminateCondition, Function>();
+            const PivotRule& pivot_rule = PivotRuleFactory::create<PivotRule, Neighborhood, Solution, Function>();
+            TerminateCondition terminate_condition = TerminateConditionFactory::create<TerminateCondition, Function>();
 
             Score current_score = objective_function(solution);
-            set_best_solution(solution, current_score);
+            this->set_best_solution(solution, current_score);
 
             // TODO: Pass search space info to the neighborhood
-            Neighborhood neighborhood;
+            Neighborhood neighborhood(100);
             while(!terminate_condition.should_terminate())
             {
                 auto chosen_mutation = pivot_rule.choose(neighborhood, solution, objective_function);
@@ -49,19 +48,17 @@ namespace AdaptiveOA {
                 solution.mutate(*chosen_mutation);
 
                 if(solution.get_score() > this->best_score())
-                    set_best_solution(solution, solution.get_score());
+                    this->set_best_solution(solution, solution.get_score().value());
 
                 terminate_condition.update(objective_function);
             }
         }
     };
 
-    template<SolutionLike Solution, typename Function, NeighborhoodLike Neighborhood>
-    requires FunctionLike<Function, Solution>
+    template<SolutionLike Solution, FunctionLike Function, NeighborhoodLike Neighborhood>
     using FirstImprovementHillClimber = LocalSearch<Solution, Function, Neighborhood, FirstImprovement, NoLimit>;
 
-    template<SolutionLike Solution, typename Function, NeighborhoodLike Neighborhood>
-    requires FunctionLike<Function, Solution>
+    template<SolutionLike Solution, FunctionLike Function, NeighborhoodLike Neighborhood>
     using BestImprovementHillClimber = LocalSearch<Solution, Function, Neighborhood, FirstImprovement, NoLimit>;
 
 } // namespace AdaptiveOA
