@@ -35,15 +35,16 @@ namespace AdaptiveOA
 
         void do_randomize()
         {
-            for(unsigned int i(0); m_bits.size(); ++i)
+            for(unsigned int i(0); i < m_bits.size(); ++i)
             {
-                m_bits.assign(i, Random::get_bool());
+                m_bits[i] = Random::get_bool();
             }
         }
 
         std::string do_to_string() const
         {
             std::ostringstream oss;
+            oss << "(" << m_bits.size() << ")";
             for (bool bit : m_bits)
             {
                 oss << (bit ? '1' : '0');
