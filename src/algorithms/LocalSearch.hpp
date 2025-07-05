@@ -37,8 +37,7 @@ namespace AdaptiveOA {
             const PivotRule& pivot_rule = PivotRuleFactory::create<PivotRule, Neighborhood, Solution, Function>();
             TerminateCondition terminate_condition = TerminateConditionFactory::create<TerminateCondition, Function>();
 
-            Score current_score = objective_function(solution);
-            this->set_best_solution(solution, current_score);
+            this->set_best_solution(solution);
 
             while(!terminate_condition.should_terminate())
             {
@@ -48,7 +47,7 @@ namespace AdaptiveOA {
                 solution.mutate(*chosen_mutation);
 
                 if(solution.get_score() > this->best_score())
-                    this->set_best_solution(solution, solution.get_score().value());
+                    this->set_best_solution(solution);
 
                 terminate_condition.update(objective_function);
             }

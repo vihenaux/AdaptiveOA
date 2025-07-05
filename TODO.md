@@ -76,7 +76,7 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
 ## 🧪 Testing & Utilities
 
 - [ ] Add unit tests for `SolutionBase` and `BitstringSolution`
-- [ ] Add a deterministic `Random` singleton utility
+- [x] Add a deterministic `Random` singleton utility
 - [ ] CLI interface for running experiments with parameterized configurations
 
 ---

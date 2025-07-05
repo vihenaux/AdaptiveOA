@@ -49,11 +49,11 @@ namespace AdaptiveOA
 
         protected:
 
-        void set_best_solution(const Solution& sol, Score score) {
+        void set_best_solution(const Solution& sol) {
             m_best_solution = sol;
         }
 
-        void set_best_solution(Solution&& sol, Score score) {
+        void set_best_solution(Solution&& sol) {
             m_best_solution = std::move(sol);
         }
 

@@ -16,14 +16,15 @@ namespace AdaptiveOA
             Score count = 0;
             for (std::size_t i = 0; i < sol.size(); ++i)
             {
-                count += sol[i];
+                count += static_cast<Score>(sol[i]);
             }
             return count;
         }
 
         Score evaluate(const BitString& sol, const BitFlip& mutation) const
         {
-            return (*sol.get_score()) + ((sol[mutation.get_bit()]) ? -1 : 1);
+            Score score = *sol.get_score();
+            return sol[mutation.get_bit()] ? score - 1 : score + 1;
         }
     };
 

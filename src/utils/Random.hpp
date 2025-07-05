@@ -17,7 +17,12 @@ namespace AdaptiveOA
 
         static unsigned int get_uint_range(unsigned int min, unsigned int max)
         {
-            return min + (std::rand() % (max - min + 1));
+            return min + (static_cast<unsigned int>(std::rand()) % (max - min + 1));
+        }
+
+        static unsigned long get_uint_range(unsigned long min, unsigned long max)
+        {
+            return min + (((static_cast<unsigned long>(std::rand()) << 32ul) + static_cast<unsigned long>(std::rand())) % (max - min + 1));
         }
 
         static bool get_bool() {
