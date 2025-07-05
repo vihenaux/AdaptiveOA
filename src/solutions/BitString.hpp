@@ -37,7 +37,7 @@ namespace AdaptiveOA
         {
             for(unsigned int i(0); m_bits.size(); ++i)
             {
-                m_bits[i] = Random::get_bool();
+                m_bits.assign(i, Random::get_bool());
             }
         }
 
