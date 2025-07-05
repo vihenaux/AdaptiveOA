@@ -44,24 +44,21 @@ namespace AdaptiveOA
         }
 
         std::optional<Score> best_score() const {
-            return m_best_score;
+            return (m_best_solution) ? m_best_solution->get_score() : std::nullopt;
         }
 
         protected:
 
         void set_best_solution(const Solution& sol, Score score) {
             m_best_solution = sol;
-            m_best_score = score;
         }
 
         void set_best_solution(Solution&& sol, Score score) {
             m_best_solution = std::move(sol);
-            m_best_score = score;
         }
 
         private:
 
-        std::optional<Score> m_best_score = 0;
         std::optional<Solution> m_best_solution;
     };
 

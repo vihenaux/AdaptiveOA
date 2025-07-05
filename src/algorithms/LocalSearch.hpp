@@ -30,6 +30,8 @@ namespace AdaptiveOA {
     {
         public:
 
+        LocalSearch(Neighborhood && neighborhood) : m_neighborhood(std::move(neighborhood)) {}
+
         void do_run(Solution& solution, const Function& objective_function)
         {
             const PivotRule& pivot_rule = PivotRuleFactory::create<PivotRule, Neighborhood, Solution, Function>();
@@ -38,11 +40,9 @@ namespace AdaptiveOA {
             Score current_score = objective_function(solution);
             this->set_best_solution(solution, current_score);
 
-            // TODO: Pass search space info to the neighborhood
-            Neighborhood neighborhood(100);
             while(!terminate_condition.should_terminate())
             {
-                auto chosen_mutation = pivot_rule.choose(neighborhood, solution, objective_function);
+                auto chosen_mutation = pivot_rule.choose(m_neighborhood, solution, objective_function);
                 if (!chosen_mutation)
                     break;
                 solution.mutate(*chosen_mutation);
@@ -53,6 +53,10 @@ namespace AdaptiveOA {
                 terminate_condition.update(objective_function);
             }
         }
+
+        private:
+
+        Neighborhood m_neighborhood;
     };
 
     template<SolutionLike Solution, FunctionLike Function, NeighborhoodLike Neighborhood>
