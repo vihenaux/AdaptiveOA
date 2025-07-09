@@ -40,6 +40,11 @@ namespace AdaptiveOA
         {
             static_cast<Derived*>(this)->do_accept_mutation(mutation);
         }
+
+        void reset()
+        {
+            static_cast<Derived*>(this)->do_reset();
+        }
     };
 
 } // namespace AdaptiveOA

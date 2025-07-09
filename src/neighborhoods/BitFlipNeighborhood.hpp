@@ -48,6 +48,11 @@ namespace AdaptiveOA
         {
             m_current_neighbor = 0;
         }
+
+        void do_reset()
+        {
+            m_current_neighbor = 0;
+        }
     };
 
 
