@@ -3,13 +3,15 @@
 #include "functions/OneMax.hpp"
 #include "neighborhoods/BitFlipNeighborhood.hpp"
 #include "solutions/BitString.hpp"
+#include "utils/CLI.hpp"
 
 using namespace AdaptiveOA;
 
-int main()
+int main(int argc, char **argv)
 {
-    constexpr std::size_t bitstring_size = 100;
+    CLI::init(argc, argv);
 
+    constexpr std::size_t bitstring_size = 100;
     // Initialize components
     BitString solution(bitstring_size);
     OneMax function;
