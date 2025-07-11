@@ -10,7 +10,7 @@ using namespace AdaptiveOA;
 int main(int argc, char **argv)
 {
     CLI::init(argc, argv);
-
+    
     constexpr std::size_t bitstring_size = 100;
     // Initialize components
     BitString solution(bitstring_size);

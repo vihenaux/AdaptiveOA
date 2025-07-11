@@ -9,101 +9,106 @@ namespace AdaptiveOA {
 
 namespace CLI
 {
-    inline auto& expected_map()
+    enum class Option
     {
-        static auto* map = new std::map<std::string, std::array<std::string, 2>>;
-        return *map;
+        Help,
+        // Add more options here
+        Count // Always keep this last to get the size of the enum
+    };
+
+    struct OptionInfo
+    {
+        std::string_view name;
+        std::string_view default_value;
+        std::string_view description;
+    };
+
+    constexpr std::array<OptionInfo, static_cast<std::size_t>(Option::Count)> expected_options{{
+        {"--help", "", "prints the options available"}
+    }};
+
+    static Option find_option(std::string_view option_name)
+    {
+        for(unsigned int i(0); i < static_cast<unsigned int>(Option::Count); ++i)
+        {
+            if(expected_options[i].name == option_name)
+            {
+                return static_cast<Option>(i);
+            }
+        }
+        return Option::Count;
     }
 
-    inline auto& args_map()
+    inline auto& arg_values()
     {
-        static auto* map = new std::map<std::string, std::string>;
-        return *map;
+        static auto* values = new std::array<std::string, static_cast<std::size_t>(Option::Count)>;
+        return *values;
     }
 
-    static void add(const std::string& option_name, const std::string& default_value = "", const std::string& description = "")
+    inline auto& arg_defined()
     {
-        expected_map().emplace(option_name, std::array<std::string, 2>{default_value, description});
+        static auto* defined = new std::vector<bool>(static_cast<std::size_t>(Option::Count), false);
+        return *defined;
     }
 
     static void print_help()
     {
         std::cout << "Options available :\n";
 
-        for(auto& x : expected_map())
+        for(auto& x : expected_options)
         {
-            std::cout << "\n\t" << x.first << " (" << x.second[0] << ") : " << x.second[1] << "\n";
+            std::cout << "\n\t" << x.name << " (" << x.default_value << ") : " << x.description << "\n";
         }
 
         std::cout << std::flush;
     }
 
-    static bool is_option_there(const std::string& option_name)
-    {
-        return args_map().find(option_name) != args_map().end();
-    }
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-function"
-    static std::string get_option_value(const std::string& option_name)
+    static std::string_view get_option_value(Option o)
     {
-        if(is_option_there(option_name))
+        if(arg_defined()[static_cast<unsigned int>(o)])
         {
-            return args_map()[option_name];
+            return arg_values()[static_cast<unsigned int>(o)];
         }
-        else if(expected_map().find(option_name) != expected_map().end())
-        {
-            return expected_map()[option_name][0];
-        }
-
-        std::cerr << "Option asked was not defined : " << option_name << std::endl;
-        return "";
+        return expected_options[static_cast<unsigned int>(o)].default_value;
     }
 #pragma clang diagnostic pop
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #pragma clang diagnostic ignored "-Wunused-function"
-        static void init(int argc, char **argv)
+    static void init(int argc, char **argv)
+    {
+        std::string_view key;
+        for(int i(1); i < argc; ++i)
         {
-            add("--help", "", "prints the options available");
+            key = argv[i];
 
-            std::string key;
-            for(int i(1); i < argc; ++i)
+            Option option = find_option(key);
+            if(option == Option::Count)
+                continue;
+
+            arg_defined()[static_cast<unsigned int>(option)] = true;
+
+            if(!expected_options[static_cast<unsigned int>(option)].default_value.empty())
             {
-                key = argv[i];
-
-                auto it = expected_map().find(key);
-                if (it == expected_map().end())
+                if(i + 1 >= argc)
                 {
-                    std::cerr << "Unexpected argument: " << key << "\n";
+                    std::cerr << "Missing value for argument: " << key << "\n";
                     continue;
                 }
 
-                const std::string& default_value = it->second[0];
-
-                if (!default_value.empty())
-                {
-                    if (i + 1 >= argc)
-                    {
-                        std::cerr << "Missing value for argument: " << key << "\n";
-                        continue;
-                    }
-
-                    args_map()[key] = argv[i+1];
-                }
-                else
-                {
-                    args_map()[key] = "";
-                }
-            }
-            std::cerr << std::flush;
-
-            if(is_option_there("--help"))
-            {
-                print_help();
+                arg_values()[static_cast<unsigned int>(option)] = argv[i+1];
             }
         }
+        std::cerr << std::flush;
+
+        if(arg_defined()[static_cast<unsigned int>(Option::Help)])
+        {
+            print_help();
+        }
+    }
 #pragma clang diagnostic pop
 
 }
