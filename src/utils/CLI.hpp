@@ -14,6 +14,7 @@ namespace CLI
     {
         help,
         tabu_size,
+        iteration_limit,
         // Add more options here
         count // Always keep this last to get the size of the enum
     };
@@ -27,7 +28,8 @@ namespace CLI
 
     constexpr std::array<OptionInfo, static_cast<std::size_t>(Option::count)> expected_options{{
         {"--help", "", "prints the options available"},
-        {"--tabu-size", "5", "defines the size of the tabu list"}
+        {"--tabu-size", "5", "defines the size of the tabu list"},
+        {"--iteration-limit", "100", "sets the limit of iterations for the search"}
     }};
 
     static Option find_option(std::string_view option_name)

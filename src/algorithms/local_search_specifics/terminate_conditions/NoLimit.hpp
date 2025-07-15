@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../TerminateConditionBase.hpp"
 #include "../../../core/FunctionBase.hpp"
-#include "../../../core/SolutionBase.hpp"
 
 namespace AdaptiveOA
 {

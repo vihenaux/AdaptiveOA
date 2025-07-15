@@ -36,7 +36,7 @@ namespace AdaptiveOA {
         {
             m_neighborhood.reset();
             PivotRule pivot_rule = PivotRuleFactory<PivotRule, Neighborhood, Solution, Function>::create();
-            TerminateCondition terminate_condition = TerminateConditionFactory::create<TerminateCondition, Function>();
+            TerminateCondition terminate_condition = TerminateConditionFactory<TerminateCondition, Function>::create();
 
             objective_function(solution);
             this->set_best_solution(solution);

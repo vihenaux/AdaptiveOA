@@ -5,19 +5,24 @@
 #include "solutions/BitString.hpp"
 #include "utils/CLI.hpp"
 
+#include "algorithms/local_search_specifics/pivot_rules/Tabu.hpp"
+#include "algorithms/local_search_specifics/terminate_conditions/NoLimit.hpp"
+#include "algorithms/local_search_specifics/terminate_conditions/IterationLimit.hpp"
+
 using namespace AdaptiveOA;
 
 int main(int argc, char **argv)
 {
     CLI::init(argc, argv);
-    
+
     constexpr std::size_t bitstring_size = 100;
     // Initialize components
     BitString solution(bitstring_size);
     OneMax function;
     BitFlipNeighborhood neighborhood(bitstring_size);
 
-    FirstImprovementHillClimber<BitString, OneMax, BitFlipNeighborhood> hc(std::move(neighborhood));
+    //FirstImprovementHillClimber<BitString, OneMax, BitFlipNeighborhood> hc(std::move(neighborhood));
+    LocalSearch<BitString,OneMax,BitFlipNeighborhood,Tabu<BitFlipNeighborhood>,IterationLimit> hc(std::move(neighborhood));
 
     Score total_score = 0;
     for(unsigned int i(0); i < 1000000; ++i)
