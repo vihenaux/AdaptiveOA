@@ -1,6 +1,7 @@
 #pragma once
 
 #include <optional>
+#include <vector>
 #include "../PivotRuleBase.hpp"
 #include "../../../core/NeighborhoodBase.hpp"
 #include "../../../core/MutationBase.hpp"

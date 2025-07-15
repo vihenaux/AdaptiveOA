@@ -5,6 +5,7 @@
 #include <map>
 #include <array>
 #include <iostream>
+#include "FastCLI.hpp"
 
 namespace AdaptiveOA {
 
@@ -113,6 +114,9 @@ namespace CLI
         {
             print_help();
         }
+
+        fast_cli().set_iteration_limit(static_cast<unsigned int>(std::stoi(std::string(get_option_value(Option::iteration_limit)))));
+        fast_cli().set_tabu_list_max_size(static_cast<unsigned int>(std::stoi(std::string(get_option_value(Option::tabu_size)))));
     }
 #pragma clang diagnostic pop
 

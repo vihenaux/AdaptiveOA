@@ -3,7 +3,7 @@
 #include "../../core/FunctionBase.hpp"
 #include "TerminateConditionBase.hpp"
 #include "terminate_conditions/IterationLimit.hpp"
-#include "../../utils/CLI.hpp"
+#include "../../utils/FastCLI.hpp"
 
 namespace AdaptiveOA
 {
@@ -28,7 +28,7 @@ namespace AdaptiveOA
 
         static IterationLimit create()
         {
-            return IterationLimit(static_cast<unsigned int>(std::stoi(std::string(CLI::get_option_value(CLI::Option::iteration_limit)))));
+            return IterationLimit(fast_cli().get_iteration_limit());
         }
     };
 
