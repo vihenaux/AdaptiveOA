@@ -18,12 +18,16 @@ namespace AdaptiveOA
             return m_bit;
         }
 
-
         std::string do_to_string() const
         {
             std::ostringstream oss;
             oss << m_bit;
             return oss.str();
+        }
+
+        bool operator==(const BitFlip& mutation) const
+        {
+            return m_bit == mutation.m_bit;
         }
 
         private:

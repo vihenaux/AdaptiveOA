@@ -20,6 +20,7 @@ namespace AdaptiveOA {
         typename Neighborhood::Mutation;
         requires MutationLike<typename Neighborhood::Mutation>;
 
+
         { rule.choose(nh, sol, f) } -> std::same_as<std::optional<typename Neighborhood::Mutation>>;
     };
 

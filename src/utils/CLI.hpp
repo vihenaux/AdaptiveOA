@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <string>
 #include <map>
 #include <array>
@@ -11,9 +12,10 @@ namespace CLI
 {
     enum class Option
     {
-        Help,
+        help,
+        tabu_size,
         // Add more options here
-        Count // Always keep this last to get the size of the enum
+        count // Always keep this last to get the size of the enum
     };
 
     struct OptionInfo
@@ -23,31 +25,32 @@ namespace CLI
         std::string_view description;
     };
 
-    constexpr std::array<OptionInfo, static_cast<std::size_t>(Option::Count)> expected_options{{
-        {"--help", "", "prints the options available"}
+    constexpr std::array<OptionInfo, static_cast<std::size_t>(Option::count)> expected_options{{
+        {"--help", "", "prints the options available"},
+        {"--tabu-size", "5", "defines the size of the tabu list"}
     }};
 
     static Option find_option(std::string_view option_name)
     {
-        for(unsigned int i(0); i < static_cast<unsigned int>(Option::Count); ++i)
+        for(unsigned int i(0); i < static_cast<unsigned int>(Option::count); ++i)
         {
             if(expected_options[i].name == option_name)
             {
                 return static_cast<Option>(i);
             }
         }
-        return Option::Count;
+        return Option::count;
     }
 
     inline auto& arg_values()
     {
-        static auto* values = new std::array<std::string, static_cast<std::size_t>(Option::Count)>;
+        static auto* values = new std::array<std::string, static_cast<std::size_t>(Option::count)>;
         return *values;
     }
 
     inline auto& arg_defined()
     {
-        static auto* defined = new std::vector<bool>(static_cast<std::size_t>(Option::Count), false);
+        static auto* defined = new std::vector<bool>(static_cast<std::size_t>(Option::count), false);
         return *defined;
     }
 
@@ -86,7 +89,7 @@ namespace CLI
             key = argv[i];
 
             Option option = find_option(key);
-            if(option == Option::Count)
+            if(option == Option::count)
                 continue;
 
             arg_defined()[static_cast<unsigned int>(option)] = true;
@@ -104,7 +107,7 @@ namespace CLI
         }
         std::cerr << std::flush;
 
-        if(arg_defined()[static_cast<unsigned int>(Option::Help)])
+        if(arg_defined()[static_cast<unsigned int>(Option::help)])
         {
             print_help();
         }

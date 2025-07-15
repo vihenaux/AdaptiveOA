@@ -35,7 +35,7 @@ namespace AdaptiveOA {
         void do_run(Solution& solution, const Function& objective_function)
         {
             m_neighborhood.reset();
-            const PivotRule& pivot_rule = PivotRuleFactory::create<PivotRule, Neighborhood, Solution, Function>();
+            PivotRule pivot_rule = PivotRuleFactory<PivotRule, Neighborhood, Solution, Function>::create();
             TerminateCondition terminate_condition = TerminateConditionFactory::create<TerminateCondition, Function>();
 
             objective_function(solution);
@@ -47,6 +47,7 @@ namespace AdaptiveOA {
                 if (!chosen_mutation)
                     break;
                 solution.mutate(*chosen_mutation);
+                m_neighborhood.accept_mutation(*chosen_mutation);
 
                 if(solution.get_score() > this->best_score())
                     this->set_best_solution(solution);
