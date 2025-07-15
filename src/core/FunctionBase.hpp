@@ -46,6 +46,10 @@ namespace AdaptiveOA
         }
 
         std::size_t get_nb_evaluations() const { return m_nb_evaluations; }
+        void reset()
+        {
+            m_nb_evaluations = 0;
+        }
 
         protected:
 

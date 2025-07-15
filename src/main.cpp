@@ -8,6 +8,7 @@
 #include "algorithms/local_search_specifics/pivot_rules/Tabu.hpp"
 #include "algorithms/local_search_specifics/terminate_conditions/NoLimit.hpp"
 #include "algorithms/local_search_specifics/terminate_conditions/IterationLimit.hpp"
+#include "algorithms/local_search_specifics/terminate_conditions/FunctionCallLimit.hpp"
 
 using namespace AdaptiveOA;
 
@@ -22,11 +23,12 @@ int main(int argc, char **argv)
     BitFlipNeighborhood neighborhood(bitstring_size);
 
     //FirstImprovementHillClimber<BitString, OneMax, BitFlipNeighborhood> hc(std::move(neighborhood));
-    LocalSearch<BitString,OneMax,BitFlipNeighborhood,Tabu<BitFlipNeighborhood>,IterationLimit> hc(std::move(neighborhood));
+    LocalSearch<BitString,OneMax,BitFlipNeighborhood,Tabu<BitFlipNeighborhood>,FunctionCallLimit> hc(std::move(neighborhood));
 
     Score total_score = 0;
     for(unsigned int i(0); i < 1000000; ++i)
     {
+        function.reset();
         solution.randomize();
         hc.run(solution, function);
         total_score += hc.best_score().value();

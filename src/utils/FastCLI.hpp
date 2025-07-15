@@ -12,6 +12,11 @@ namespace AdaptiveOA
             return m_iteration_limit;
         }
 
+        std::size_t get_function_call_limit() const
+        {
+            return m_function_call_limit;
+        }
+
         unsigned int get_tabu_list_max_size() const
         {
             return m_tabu_list_max_size;
@@ -22,6 +27,11 @@ namespace AdaptiveOA
             m_iteration_limit = iteration_limit;
         }
 
+        void set_function_call_limit(std::size_t function_call_limit)
+        {
+            m_function_call_limit = function_call_limit;
+        }
+
         void set_tabu_list_max_size(unsigned int tabu_list_max_size)
         {
             m_tabu_list_max_size = tabu_list_max_size;
@@ -30,6 +40,7 @@ namespace AdaptiveOA
         private:
 
         std::size_t m_iteration_limit{0};
+        std::size_t m_function_call_limit{0};
         unsigned int m_tabu_list_max_size{0};
 
 #pragma clang diagnostic push

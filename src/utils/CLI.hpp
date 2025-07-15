@@ -16,6 +16,7 @@ namespace CLI
         help,
         tabu_size,
         iteration_limit,
+        function_call_limit,
         // Add more options here
         count // Always keep this last to get the size of the enum
     };
@@ -30,7 +31,8 @@ namespace CLI
     constexpr std::array<OptionInfo, static_cast<std::size_t>(Option::count)> expected_options{{
         {"--help", "", "prints the options available"},
         {"--tabu-size", "5", "defines the size of the tabu list"},
-        {"--iteration-limit", "100", "sets the limit of iterations for the search"}
+        {"--iteration-limit", "100", "sets the limit of iterations for the search"},
+        {"--function-call-limit", "10000", "sets the limit of function calls for the search"}
     }};
 
     static Option find_option(std::string_view option_name)
@@ -115,7 +117,8 @@ namespace CLI
             print_help();
         }
 
-        fast_cli().set_iteration_limit(static_cast<unsigned int>(std::stoi(std::string(get_option_value(Option::iteration_limit)))));
+        fast_cli().set_iteration_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::iteration_limit)))));
+        fast_cli().set_iteration_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::function_call_limit)))));
         fast_cli().set_tabu_list_max_size(static_cast<unsigned int>(std::stoi(std::string(get_option_value(Option::tabu_size)))));
     }
 #pragma clang diagnostic pop
