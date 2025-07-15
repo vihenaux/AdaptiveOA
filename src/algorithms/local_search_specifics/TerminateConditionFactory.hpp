@@ -4,6 +4,7 @@
 #include "TerminateConditionBase.hpp"
 #include "terminate_conditions/IterationLimit.hpp"
 #include "terminate_conditions/FunctionCallLimit.hpp"
+#include "terminate_conditions/TimeLimit.hpp"
 #include "../../utils/FastCLI.hpp"
 
 namespace AdaptiveOA
@@ -42,6 +43,18 @@ namespace AdaptiveOA
         static FunctionCallLimit create()
         {
             return FunctionCallLimit(fast_cli().get_iteration_limit());
+        }
+    };
+
+    template<FunctionLike Function>
+    requires TerminateConditionLike<TimeLimit, Function>
+    class TerminateConditionFactory<TimeLimit, Function>
+    {
+    public:
+
+        static TimeLimit create()
+        {
+            return TimeLimit(fast_cli().get_time_limit());
         }
     };
 
