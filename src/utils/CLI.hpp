@@ -18,6 +18,9 @@ namespace CLI
         iteration_limit,
         function_call_limit,
         time_limit,
+        simulated_annealing_starting_temperature,
+        simulated_annealing_decay,
+        mutation_limit,
         // Add more options here
         count // Always keep this last to get the size of the enum
     };
@@ -34,7 +37,10 @@ namespace CLI
         {"--tabu-size", "5", "defines the size of the tabu list"},
         {"--iteration-limit", "100", "sets the limit of iterations for the search"},
         {"--function-call-limit", "10000", "sets the limit of function calls for the search"},
-        {"--time-limit", "1000", "sets the time limit for the search (in micro seconds)"}
+        {"--time-limit", "1000", "sets the time limit for the search (in micro seconds)"},
+        {"--simulated-annealing-starting-temperature", "100", "sets the initial temperature of the simulated annealing search"},
+        {"--simulated-annealing-decay", "0.99", "sets the decay ratio of the simulated annealing temperature (must be in ]0;1[)"},
+        {"--mutation-limit", "100", "sets the maximum mutation generated per iteration of the search"}
     }};
 
     static Option find_option(std::string_view option_name)
@@ -123,6 +129,9 @@ namespace CLI
         fast_cli().set_iteration_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::function_call_limit)))));
         fast_cli().set_time_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::time_limit)))));
         fast_cli().set_tabu_list_max_size(static_cast<unsigned int>(std::stoi(std::string(get_option_value(Option::tabu_size)))));
+        fast_cli().set_simulated_annealing_starting_temperature(std::stod(std::string(get_option_value(Option::simulated_annealing_starting_temperature))));
+        fast_cli().set_simulated_annealing_decay(std::stod(std::string(get_option_value(Option::simulated_annealing_decay))));
+        fast_cli().set_mutation_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::mutation_limit)))));
     }
 #pragma clang diagnostic pop
 

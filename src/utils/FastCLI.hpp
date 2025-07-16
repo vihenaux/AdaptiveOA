@@ -17,6 +17,21 @@ namespace AdaptiveOA
             return m_function_call_limit;
         }
 
+        double get_simulated_annealing_starting_temperature() const
+        {
+            return m_simulated_annealing_starting_temperature;
+        }
+
+        double get_simulated_annealing_decay() const
+        {
+            return m_simulated_annealing_decay;
+        }
+
+        std::size_t get_mutation_limit() const
+        {
+            return m_mutation_limit;
+        }
+
         std::size_t get_time_limit() const
         {
             return m_time_limit;
@@ -47,11 +62,29 @@ namespace AdaptiveOA
             m_tabu_list_max_size = tabu_list_max_size;
         }
 
+        void set_simulated_annealing_starting_temperature(double simulated_annealing_starting_temperature)
+        {
+            m_simulated_annealing_starting_temperature = simulated_annealing_starting_temperature;
+        }
+
+        void set_simulated_annealing_decay(double simulated_annealing_decay)
+        {
+            m_simulated_annealing_decay = simulated_annealing_decay;
+        }
+
+        void set_mutation_limit(std::size_t mutation_limit)
+        {
+            m_mutation_limit = mutation_limit;
+        }
+
         private:
 
         std::size_t m_iteration_limit{0};
         std::size_t m_function_call_limit{0};
         std::size_t m_time_limit{0};
+        double m_simulated_annealing_starting_temperature{0.};
+        double m_simulated_annealing_decay{0.};
+        std::size_t m_mutation_limit{0};
         unsigned int m_tabu_list_max_size{0};
 
 #pragma clang diagnostic push

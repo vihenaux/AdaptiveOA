@@ -1,12 +1,9 @@
 #pragma once
 
-#include "../../core/NeighborhoodBase.hpp"
-#include "../../core/SolutionBase.hpp"
-#include "../../core/FunctionBase.hpp"
 #include "PivotRuleBase.hpp"
 #include "../../utils/FastCLI.hpp"
 #include "pivot_rules/Tabu.hpp"
-#include <string>
+#include "pivot_rules/SimulatedAnnealing.hpp"
 
 namespace AdaptiveOA
 {
@@ -27,14 +24,28 @@ namespace AdaptiveOA
     requires PivotRuleLike<Tabu<Neighborhood>, Neighborhood, Solution, Function>
     class PivotRuleFactory<Tabu<Neighborhood>, Neighborhood, Solution, Function>
     {
-        public:
+    public:
 
         static Tabu<Neighborhood> create()
         {
             return Tabu<Neighborhood>(fast_cli().get_tabu_list_max_size());
         }
 
-        private:
+    private:
+    };
+
+    template<typename Neighborhood, typename Solution, typename Function>
+    requires PivotRuleLike<SimulatedAnnealing, Neighborhood, Solution, Function>
+    class PivotRuleFactory<SimulatedAnnealing, Neighborhood, Solution, Function>
+    {
+    public:
+
+        static SimulatedAnnealing create()
+        {
+            return SimulatedAnnealing(fast_cli().get_simulated_annealing_starting_temperature(), fast_cli().get_simulated_annealing_decay(), fast_cli().get_mutation_limit());
+        }
+
+    private:
     };
 
 } // namespace AdaptiveOA

@@ -3,6 +3,7 @@
 #include "functions/OneMax.hpp"
 #include "neighborhoods/BitFlipNeighborhood.hpp"
 #include "solutions/BitString.hpp"
+#include "utils/Random.hpp"
 #include "utils/CLI.hpp"
 
 #include "algorithms/local_search_specifics/pivot_rules/Tabu.hpp"
@@ -15,6 +16,7 @@ using namespace AdaptiveOA;
 
 int main(int argc, char **argv)
 {
+    Random::init();
     CLI::init(argc, argv);
 
     constexpr std::size_t bitstring_size = 100;
@@ -24,7 +26,7 @@ int main(int argc, char **argv)
     BitFlipNeighborhood neighborhood(bitstring_size);
 
     //FirstImprovementHillClimber<BitString, OneMax, BitFlipNeighborhood> hc(std::move(neighborhood));
-    LocalSearch<BitString,OneMax,BitFlipNeighborhood,Tabu<BitFlipNeighborhood>,TimeLimit> hc(std::move(neighborhood));
+    LocalSearch<BitString,OneMax,BitFlipNeighborhood,SimulatedAnnealing,IterationLimit> hc(std::move(neighborhood));
 
     Score total_score = 0;
     for(unsigned int i(0); i < 1000000; ++i)

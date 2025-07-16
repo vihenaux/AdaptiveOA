@@ -25,8 +25,14 @@ namespace AdaptiveOA
             return min + (((static_cast<unsigned long>(std::rand()) << 32ul) + static_cast<unsigned long>(std::rand())) % (max - min + 1));
         }
 
-        static bool get_bool() {
+        static bool get_bool()
+        {
             return std::rand() % 2;
+        }
+
+        static bool get_bool(double probability)
+        {
+            return static_cast<double>(std::rand()) / RAND_MAX < probability;
         }
     };
 
