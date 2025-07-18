@@ -16,6 +16,7 @@ namespace AdaptiveOA
 
         { f(std::declval<const typename F::Solution&>()) } -> std::convertible_to<Score>;
         { f.get_nb_evaluations() } -> std::same_as<std::size_t>;
+        { f.reset() } -> std::same_as<void>;
     };
 
     // ---------------------------
@@ -39,6 +40,8 @@ namespace AdaptiveOA
         template<MutationLike Mutation>
         Score operator()(const Solution& sol, const Mutation& mutation) const
         {
+            // TODO: static assert for evaluate(sol,mut) in derived, if not print message asking for at least default implementation eg:
+            // return FunctionBase<NK, BitString>::evaluate(sol, mutation);
             ++m_nb_evaluations;
             Score evaluation = static_cast<const Derived*>(this)->evaluate(sol, mutation);
             mutation.set_score(evaluation);
@@ -46,7 +49,7 @@ namespace AdaptiveOA
         }
 
         std::size_t get_nb_evaluations() const { return m_nb_evaluations; }
-        void reset()
+        void reset() const
         {
             m_nb_evaluations = 0;
         }
@@ -57,9 +60,9 @@ namespace AdaptiveOA
         template<MutationLike Mutation>
         Score evaluate(const Solution& sol, const Mutation& mutation) const
         {
-            sol.mutate(mutation);
+            const_cast<Solution&>(sol).mutate(mutation);
             Score score = (*this)(sol);
-            sol.reverse_last_mutation(mutation);
+            const_cast<Solution&>(sol).reverse_last_mutation(mutation);
             return score;
         }
 
