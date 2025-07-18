@@ -23,8 +23,8 @@ int main(int argc, char **argv)
     constexpr std::size_t bitstring_size = 64;
     // Initialize components
     BitString solution(bitstring_size);
-    OneMax function;
-    NK nk_function("nk_64_1.0");
+    //OneMax function;
+    NK function("nk_64_1.0");
     BitFlipNeighborhood neighborhood(bitstring_size);
 
     FirstImprovementHillClimber<BitString, NK, BitFlipNeighborhood> hc(std::move(neighborhood));
@@ -34,18 +34,18 @@ int main(int argc, char **argv)
     Score total_score = 0;
     for(unsigned int i(0); i < 10000; ++i)
     {
-        nk_function.reset();
+        function.reset();
         solution.randomize();
-        hc.run(solution, nk_function);
+        hc.run(solution, function);
         total_score += hc.best_score().value();
         overall_best_score = (overall_best_score < hc.best_score().value()) ? hc.best_score().value() : overall_best_score;
     }
 
     // Output result
-    std::cout << "Best solution:  " << hc.best_solution().to_string() << "\n";
-    std::cout << "Best score:     " << overall_best_score << "\n";
-    std::cout << "Evaluations:    " << nk_function.get_nb_evaluations() << "\n";
-    std::cout << "Mean score:     " << total_score/10000 << "\n";
+    std::cout << "Best solution:     " << hc.best_solution().to_string() << "\n";
+    std::cout << "Best score:        " << overall_best_score << "\n";
+    std::cout << "Evaluations:       " << function.get_nb_evaluations() << "\n";
+    std::cout << "Mean score:        " << total_score/10000 << "\n";
 
     return 0;
 }

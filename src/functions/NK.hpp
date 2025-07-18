@@ -65,7 +65,7 @@ namespace AdaptiveOA
 
                     while(tmp >= '0' && tmp <= '9')
                     {
-                        m_matrix[i] += std::pow(10u,5u-j)*static_cast<unsigned int>(tmp-'0');
+                        m_matrix[i] += static_cast<unsigned int>(std::pow(10u,5u-j))*static_cast<unsigned int>(tmp-'0');
                         ++j;
                         in.get(tmp);
                     }
@@ -88,14 +88,6 @@ namespace AdaptiveOA
             return sum;
         }
 
-
-        template<MutationLike Mutation>
-        Score evaluate(const Solution& sol, const Mutation& mutation) const
-        {
-            return FunctionBase<NK, BitString>::evaluate(sol, mutation);
-        }
-
-/*
         Score evaluate(const BitString& sol, const BitFlip& mutation) const
         {
             Score sum = *sol.get_score();
@@ -110,13 +102,13 @@ namespace AdaptiveOA
                 {
                     bool bit = sol[m_links[link_index+j]];
                     matrix_offset += (static_cast<unsigned int>(bit) << j);
-                    matrix_offset_mutated += (m_links[link_index+j] == mutation.get_bit()) ? (static_cast<unsigned int>(!bit) << j) : (static_cast<unsigned int>(bit) < j);
+                    matrix_offset_mutated += (m_links[link_index+j] == mutation.get_bit()) ? (static_cast<unsigned int>(!bit) << j) : (static_cast<unsigned int>(bit) << j);
                 }
                 sum -= m_matrix[matrix_index+matrix_offset];
                 sum += m_matrix[matrix_index+matrix_offset_mutated];
             }
             return sum;
-        }*/
+        }
 
         private:
 
