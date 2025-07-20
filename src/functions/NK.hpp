@@ -1,5 +1,6 @@
 #pragma once
 
+#include<assert.h>
 #include <cmath>
 #include <string>
 #include <fstream>
@@ -19,6 +20,8 @@ namespace AdaptiveOA
         NK(const std::string& file_path)
         {
             std::ifstream in(file_path);
+
+            assert(in.is_open());
 
             in >> m_n >> m_k;
             m_k1 = m_k + 1;
