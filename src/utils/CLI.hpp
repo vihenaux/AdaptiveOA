@@ -150,7 +150,7 @@ namespace CLI
         }
 
         fast_cli().set_iteration_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::iteration_limit)))));
-        fast_cli().set_iteration_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::function_call_limit)))));
+        fast_cli().set_function_call_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::function_call_limit)))));
         fast_cli().set_time_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(Option::time_limit)))));
         fast_cli().set_tabu_list_max_size(static_cast<unsigned int>(std::stoi(std::string(get_option_value(Option::tabu_size)))));
         fast_cli().set_simulated_annealing_starting_temperature(std::stod(std::string(get_option_value(Option::simulated_annealing_starting_temperature))));

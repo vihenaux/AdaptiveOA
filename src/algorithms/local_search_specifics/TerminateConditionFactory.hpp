@@ -42,7 +42,7 @@ namespace AdaptiveOA
 
         static FunctionCallLimit create()
         {
-            return FunctionCallLimit(fast_cli().get_iteration_limit());
+            return FunctionCallLimit(fast_cli().get_function_call_limit());
         }
     };
 

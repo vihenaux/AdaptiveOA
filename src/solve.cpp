@@ -20,29 +20,40 @@ template<
     typename Solution,
     typename Function,
     typename Neighborhood,
+    typename PivotRule,
+    typename TerminateCondition
+>
+void run_algorithm(Solution&& sol, Function&& f, Neighborhood&& nh)
+{
+    LocalSearch<Solution, Function, Neighborhood, PivotRule, TerminateCondition> algo(std::forward<Neighborhood>(nh));
+    algo.run(sol, f);
+
+    std::cout << algo.best_score().value() << std::endl;
+}
+
+template<
+    typename Solution,
+    typename Function,
+    typename Neighborhood,
     typename PivotRule
 >
 void dispatch_termination(Solution&& sol, Function&& f, Neighborhood&& nh)
 {
     if(CLI::is_option_activated(CLI::Option::iteration_limit))
     {
-        LocalSearch<Solution, Function, Neighborhood, PivotRule, IterationLimit> algo(std::forward<Neighborhood>(nh));
-        algo.run(sol, f);
+        run_algorithm<Solution, Function, Neighborhood, PivotRule, IterationLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else if(CLI::is_option_activated(CLI::Option::function_call_limit))
     {
-        LocalSearch<Solution, Function, Neighborhood, PivotRule, FunctionCallLimit> algo(std::forward<Neighborhood>(nh));
-        algo.run(sol, f);
+        run_algorithm<Solution, Function, Neighborhood, PivotRule, FunctionCallLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else if(CLI::is_option_activated(CLI::Option::time_limit))
     {
-        LocalSearch<Solution, Function, Neighborhood, PivotRule, TimeLimit> algo(std::forward<Neighborhood>(nh));
-        algo.run(sol, f);
+        run_algorithm<Solution, Function, Neighborhood, PivotRule, TimeLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else if(CLI::is_option_activated(CLI::Option::no_limit))
     {
-        LocalSearch<Solution, Function, Neighborhood, PivotRule, NoLimit> algo(std::forward<Neighborhood>(nh));
-        algo.run(sol, f);
+        run_algorithm<Solution, Function, Neighborhood, PivotRule, NoLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else
     {
