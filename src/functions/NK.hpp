@@ -21,6 +21,8 @@ namespace AdaptiveOA
         {
             std::ifstream in(file_path);
 
+            if(!in.is_open())
+                std::cerr << "Cannot open file : " << file_path << std::endl;
             assert(in.is_open());
 
             in >> m_n >> m_k;
@@ -111,6 +113,16 @@ namespace AdaptiveOA
                 sum += m_matrix[matrix_index+matrix_offset_mutated];
             }
             return sum;
+        }
+
+        std::size_t get_n() const
+        {
+            return m_n;
+        }
+
+        std::size_t get_k() const
+        {
+            return m_k;
         }
 
         private:

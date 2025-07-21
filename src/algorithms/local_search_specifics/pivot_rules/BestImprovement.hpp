@@ -25,7 +25,7 @@ namespace AdaptiveOA
 
             while(nh.mutation_available())
             {
-                auto& mutation = nh.next_mutation();
+                auto mutation = nh.next_mutation();
                 Score new_score = f(sol, mutation);
 
                 if((best_mutation && best_mutation.value().get_score() < new_score) ||

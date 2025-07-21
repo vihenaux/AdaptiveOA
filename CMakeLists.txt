@@ -16,6 +16,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Enable strict warnings
 add_compile_options(
+    -O3
     -pedantic
     -Werror
     -Weverything
@@ -29,6 +30,7 @@ add_compile_options(
 # Add the executable
 add_executable(adaptive_oa
     src/main.cpp
+    src/solve.cpp
 )
 
 # Include your header-only source tree

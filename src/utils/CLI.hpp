@@ -18,9 +18,18 @@ namespace CLI
         iteration_limit,
         function_call_limit,
         time_limit,
+        no_limit,
         simulated_annealing_starting_temperature,
         simulated_annealing_decay,
         mutation_limit,
+        nk,
+        onemax,
+        maxsat,
+        localsearch,
+        first_improvement,
+        best_improvement,
+        simulated_annealing,
+        tabu,
         // Add more options here
         count // Always keep this last to get the size of the enum
     };
@@ -38,9 +47,18 @@ namespace CLI
         {"--iteration-limit", "100", "sets the limit of iterations for the search"},
         {"--function-call-limit", "10000", "sets the limit of function calls for the search"},
         {"--time-limit", "1000", "sets the time limit for the search (in micro seconds)"},
+        {"--no-limit", "", "sets no limits for the search"},
         {"--simulated-annealing-starting-temperature", "100", "sets the initial temperature of the simulated annealing search"},
         {"--simulated-annealing-decay", "0.99", "sets the decay ratio of the simulated annealing temperature (must be in ]0;1[)"},
-        {"--mutation-limit", "100", "sets the maximum mutation generated per iteration of the search"}
+        {"--mutation-limit", "100", "sets the maximum mutation generated per iteration of the search"},
+        {"--nk", "default_instance", "path of the NK file problem to solve"},
+        {"--onemax", "100", "size of the onemax problem to solve"},
+        {"--maxsat", "default_instance", "path of the MaxSat file problem to solve"},
+        {"--localsearch", "", "sets the solving algorithm to localsearch"},
+        {"--first-improvement", "", "sets the pivot rule to first improvement"},
+        {"--best-improvement", "", "sets the pivot rule to best improvement"},
+        {"--simulated-annealing", "", "sets the pivot rule to simulated annealing"},
+        {"--tabu", "", "sets the pivot rule to tabu"}
     }};
 
     static Option find_option(std::string_view option_name)
@@ -81,6 +99,12 @@ namespace CLI
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-function"
+
+    static bool is_option_activated(Option o)
+    {
+        return arg_defined()[static_cast<unsigned int>(o)];
+    }
+
     static std::string_view get_option_value(Option o)
     {
         if(arg_defined()[static_cast<unsigned int>(o)])
