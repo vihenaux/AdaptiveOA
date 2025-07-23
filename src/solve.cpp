@@ -3,6 +3,7 @@
 #include "algorithms/LocalSearch.hpp"
 #include "functions/OneMax.hpp"
 #include "functions/NK.hpp"
+#include "functions/MaxSat.hpp"
 #include "neighborhoods/BitFlipNeighborhood.hpp"
 #include "solutions/BitString.hpp"
 #include "utils/Random.hpp"
@@ -112,6 +113,12 @@ void localsearch_solve()
     {
         OneMax objective_function;
         BitString solution(static_cast<std::size_t>(std::stoi(std::string(get_option_value(CLI::Option::onemax)))));
+        dispatch_neighborhood(std::move(solution), std::move(objective_function));
+    }
+    else if(CLI::is_option_activated(CLI::Option::maxsat))
+    {
+        MaxSat objective_function(std::string(CLI::get_option_value(CLI::Option::maxsat)));
+        BitString solution(objective_function.get_nb_literals());
         dispatch_neighborhood(std::move(solution), std::move(objective_function));
     }
     else

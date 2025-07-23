@@ -79,7 +79,7 @@ namespace AdaptiveOA
             if(m_tabu.size() < m_tabu_list_max_size)
             {
                 m_tabu.push_back(mutation);
-                m_vector_cursor++;
+                m_vector_cursor = (m_vector_cursor+1)%m_tabu_list_max_size;
                 return;
             }
             m_tabu[m_vector_cursor] = mutation;
