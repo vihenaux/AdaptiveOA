@@ -1,15 +1,21 @@
 #include "solve.hpp"
 #include <iostream>
+
+#include "utils/CLI.hpp"
 #include "algorithms/LocalSearch.hpp"
+
 #include "functions/OneMax.hpp"
 #include "functions/NK.hpp"
 #include "functions/MaxSat.hpp"
+
 #include "neighborhoods/BitFlipNeighborhood.hpp"
 #include "solutions/BitString.hpp"
-#include "utils/Random.hpp"
-#include "utils/CLI.hpp"
 
+#include "algorithms/local_search_specifics/pivot_rules/BestImprovement.hpp"
+#include "algorithms/local_search_specifics/pivot_rules/FirstImprovement.hpp"
+#include "algorithms/local_search_specifics/pivot_rules/SimulatedAnnealing.hpp"
 #include "algorithms/local_search_specifics/pivot_rules/Tabu.hpp"
+#include "algorithms/local_search_specifics/pivot_rules/WorstImprovement.hpp"
 #include "algorithms/local_search_specifics/terminate_conditions/NoLimit.hpp"
 #include "algorithms/local_search_specifics/terminate_conditions/IterationLimit.hpp"
 #include "algorithms/local_search_specifics/terminate_conditions/FunctionCallLimit.hpp"
@@ -80,6 +86,10 @@ void dispatch_pivot(Solution&& sol, Function&& f, Neighborhood&& nh)
     else if(CLI::is_option_activated(CLI::Option::tabu))
     {
         dispatch_termination<Solution, Function, Neighborhood, Tabu<Neighborhood>>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
+    }
+    else if(CLI::is_option_activated(CLI::Option::worst_improvement))
+    {
+        dispatch_termination<Solution, Function, Neighborhood, WorstImprovement>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else
     {

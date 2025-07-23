@@ -30,6 +30,7 @@ namespace CLI
         best_improvement,
         simulated_annealing,
         tabu,
+        worst_improvement,
         // Add more options here
         count // Always keep this last to get the size of the enum
     };
@@ -58,7 +59,8 @@ namespace CLI
         {"--first-improvement", "", "sets the pivot rule to first improvement"},
         {"--best-improvement", "", "sets the pivot rule to best improvement"},
         {"--simulated-annealing", "", "sets the pivot rule to simulated annealing"},
-        {"--tabu", "", "sets the pivot rule to tabu"}
+        {"--tabu", "", "sets the pivot rule to tabu"},
+        {"--worst-improvement", "", "sets the pivot rule to worst improvement"}
     }};
 
     static Option find_option(std::string_view option_name)
