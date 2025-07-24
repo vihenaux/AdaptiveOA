@@ -31,6 +31,12 @@ namespace CLI
         simulated_annealing,
         tabu,
         worst_improvement,
+        iteratedlocalsearch,
+        ils_iteration_limit,
+        ils_function_call_limit,
+        ils_time_limit,
+        ils_no_limit,
+        ils_nb_random_mutation,
         // Add more options here
         count // Always keep this last to get the size of the enum
     };
@@ -60,7 +66,13 @@ namespace CLI
         {"--best-improvement", "", "sets the pivot rule to best improvement"},
         {"--simulated-annealing", "", "sets the pivot rule to simulated annealing"},
         {"--tabu", "", "sets the pivot rule to tabu"},
-        {"--worst-improvement", "", "sets the pivot rule to worst improvement"}
+        {"--worst-improvement", "", "sets the pivot rule to worst improvement"},
+        {"--iteratedlocalsearch", "", "sets the solving algorithm to iterated localsearch"},
+        {"--ils-iteration-limit", "100", "sets the limit of iterations for the ILS"},
+        {"--ils-function-call-limit", "10000", "sets the limit of function calls for the ILS"},
+        {"--ils-time-limit", "1000", "sets the time limit for the ILS (in micro seconds)"},
+        {"--ils-no-limit", "", "sets no limits for the ILS"},
+        {"--ils-nb-random-mutation", "10", "sets the number of random mutation to apply at each ILS cycle"}
     }};
 
     static Option find_option(std::string_view option_name)

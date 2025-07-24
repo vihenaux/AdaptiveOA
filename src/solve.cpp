@@ -3,6 +3,7 @@
 
 #include "utils/CLI.hpp"
 #include "algorithms/LocalSearch.hpp"
+#include "algorithms/IteratedLocalSearch.hpp"
 
 #include "functions/OneMax.hpp"
 #include "functions/NK.hpp"
@@ -28,14 +29,73 @@ template<
     typename Function,
     typename Neighborhood,
     typename PivotRule,
-    typename TerminateCondition
+    typename TerminateConditionLS,
+    typename TerminateConditionILS
 >
-void run_algorithm(Solution&& sol, Function&& f, Neighborhood&& nh)
+void run_ils(Solution&& sol, Function&& f, Neighborhood&& nh, TerminateConditionILS && terminate_condition_ils)
 {
-    LocalSearch<Solution, Function, Neighborhood, PivotRule, TerminateCondition> algo(std::forward<Neighborhood>(nh));
+    std::size_t ils_nb_random_mutation = static_cast<std::size_t>(std::stoi(std::string(get_option_value(CLI::Option::ils_nb_random_mutation))));
+    IteratedLocalSearch<Solution, Function, Neighborhood, PivotRule, TerminateConditionLS, TerminateConditionILS> algo(std::forward<Neighborhood>(nh), std::forward<TerminateConditionILS>(terminate_condition_ils), ils_nb_random_mutation);
     algo.run(sol, f);
 
     std::cout << algo.best_score().value() << std::endl;
+}
+
+template<
+    typename Solution,
+    typename Function,
+    typename Neighborhood,
+    typename PivotRule,
+    typename TerminateConditionLS
+>
+void dispatch_ils(Solution&& sol, Function&& f, Neighborhood&& nh)
+{
+    if(CLI::is_option_activated(CLI::Option::ils_iteration_limit))
+    {
+        IterationLimit iteration_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(CLI::Option::ils_iteration_limit)))));
+        run_ils<Solution, Function, Neighborhood, PivotRule, TerminateConditionLS, IterationLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh), std::move(iteration_limit));
+    }
+    else if(CLI::is_option_activated(CLI::Option::ils_function_call_limit))
+    {
+        FunctionCallLimit function_call_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(CLI::Option::ils_function_call_limit)))));
+        run_ils<Solution, Function, Neighborhood, PivotRule, TerminateConditionLS, FunctionCallLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh), std::move(function_call_limit));
+    }
+    else if(CLI::is_option_activated(CLI::Option::ils_time_limit))
+    {
+        TimeLimit time_limit(static_cast<std::size_t>(std::stoi(std::string(get_option_value(CLI::Option::ils_time_limit)))));
+        run_ils<Solution, Function, Neighborhood, PivotRule, TerminateConditionLS, TimeLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh), std::move(time_limit));
+    }
+    else if(CLI::is_option_activated(CLI::Option::ils_no_limit))
+    {
+        NoLimit no_limit;
+        run_ils<Solution, Function, Neighborhood, PivotRule, TerminateConditionLS, NoLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh), std::move(no_limit));
+    }
+    else
+    {
+        std::cerr << "No termination condition selected.\n";
+    }
+}
+
+template<
+    typename Solution,
+    typename Function,
+    typename Neighborhood,
+    typename PivotRule,
+    typename TerminateCondition
+>
+void dispatch_algorithm(Solution&& sol, Function&& f, Neighborhood&& nh)
+{
+    if(CLI::is_option_activated(CLI::Option::localsearch))
+    {
+        LocalSearch<Solution, Function, Neighborhood, PivotRule, TerminateCondition> algo(std::forward<Neighborhood>(nh));
+        algo.run(sol, f);
+
+        std::cout << algo.best_score().value() << std::endl;
+    }
+    if(CLI::is_option_activated(CLI::Option::iteratedlocalsearch))
+    {
+        dispatch_ils<Solution, Function, Neighborhood, PivotRule, IterationLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
+    }
 }
 
 template<
@@ -48,19 +108,19 @@ void dispatch_termination(Solution&& sol, Function&& f, Neighborhood&& nh)
 {
     if(CLI::is_option_activated(CLI::Option::iteration_limit))
     {
-        run_algorithm<Solution, Function, Neighborhood, PivotRule, IterationLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
+        dispatch_algorithm<Solution, Function, Neighborhood, PivotRule, IterationLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else if(CLI::is_option_activated(CLI::Option::function_call_limit))
     {
-        run_algorithm<Solution, Function, Neighborhood, PivotRule, FunctionCallLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
+        dispatch_algorithm<Solution, Function, Neighborhood, PivotRule, FunctionCallLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else if(CLI::is_option_activated(CLI::Option::time_limit))
     {
-        run_algorithm<Solution, Function, Neighborhood, PivotRule, TimeLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
+        dispatch_algorithm<Solution, Function, Neighborhood, PivotRule, TimeLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else if(CLI::is_option_activated(CLI::Option::no_limit))
     {
-        run_algorithm<Solution, Function, Neighborhood, PivotRule, NoLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
+        dispatch_algorithm<Solution, Function, Neighborhood, PivotRule, NoLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
     }
     else
     {

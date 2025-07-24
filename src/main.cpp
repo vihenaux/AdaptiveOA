@@ -10,10 +10,7 @@ int main(int argc, char **argv)
     Random::init();
     CLI::init(argc, argv);
 
-    if(CLI::is_option_activated(CLI::Option::localsearch))
-    {
-        localsearch_solve();
-    }
+    localsearch_solve();
 
     return 0;
 }

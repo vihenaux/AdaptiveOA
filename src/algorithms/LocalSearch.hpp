@@ -12,7 +12,8 @@
 #include "local_search_specifics/pivot_rules/FirstImprovement.hpp"
 #include "local_search_specifics/terminate_conditions/NoLimit.hpp"
 
-namespace AdaptiveOA {
+namespace AdaptiveOA
+{
 
     template<
             SolutionLike Solution,
