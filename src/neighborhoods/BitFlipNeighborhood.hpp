@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <vector>
 #include "../core/NeighborhoodBase.hpp"
-#include "../solutions/BitString.hpp"
 #include "../mutations/BitFlip.hpp"
 
 namespace AdaptiveOA
@@ -12,9 +11,6 @@ namespace AdaptiveOA
     class BitFlipNeighborhood : public NeighborhoodBase<BitFlipNeighborhood, BitFlip>
     {
         public:
-
-        using Solution = BitString;
-        using Mutation = BitFlip;
 
         BitFlipNeighborhood() = delete;
         BitFlipNeighborhood(std::size_t bit_string_size) : m_neighbors(bit_string_size)
@@ -37,14 +33,14 @@ namespace AdaptiveOA
             return m_current_neighbor < m_neighbors.size();
         }
 
-        Mutation do_next_mutation()
+        BitFlip do_next_mutation()
         {
             std::size_t neighbor_index = Random::get_uint_range(m_current_neighbor, m_neighbors.size()-1);
             std::swap(m_neighbors[m_current_neighbor], m_neighbors[neighbor_index]);
             return BitFlip{ m_neighbors[m_current_neighbor++] };
         }
 
-        void do_accept_mutation(const Mutation&)
+        void do_accept_mutation(const BitFlip&)
         {
             m_current_neighbor = 0;
         }

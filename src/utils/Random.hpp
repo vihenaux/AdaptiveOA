@@ -15,6 +15,11 @@ namespace AdaptiveOA
             std::srand(static_cast<unsigned int>(std::time(nullptr)));
         }
 
+        static unsigned int get_uint()
+        {
+            return static_cast<unsigned int>(std::rand());
+        }
+
         static unsigned int get_uint_range(unsigned int min, unsigned int max)
         {
             return min + (static_cast<unsigned int>(std::rand()) % (max - min + 1));
