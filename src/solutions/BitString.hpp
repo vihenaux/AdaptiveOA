@@ -45,7 +45,7 @@ namespace AdaptiveOA
         {
             std::ostringstream oss;
             oss << "(" << m_bits.size() << ")";
-            for (bool bit : m_bits)
+            for(bool bit : m_bits)
             {
                 oss << (bit ? '1' : '0');
             }

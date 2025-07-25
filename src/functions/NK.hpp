@@ -8,6 +8,7 @@
 #include "../core/FunctionBase.hpp"
 #include "../solutions/BitString.hpp"
 #include "../mutations/BitFlip.hpp"
+#include "../utils/Random.hpp"
 
 namespace AdaptiveOA
 {
@@ -17,6 +18,15 @@ namespace AdaptiveOA
         public:
 
         NK() = delete;
+        NK(std::size_t n, std::size_t k) : m_n(n), m_k(k), m_k1(k+1), m_2k1(1 << (k+1))
+        {
+            m_matrix.resize(m_n*m_2k1);
+            m_links.resize(m_n*m_k1);
+            m_var_in_links.resize(m_n*m_n);
+            m_var_in_link_times.resize(m_n*m_n, 0);
+            m_var_in_links_sizes.resize(m_n, 0);
+        }
+
         NK(const std::string& file_path)
         {
             std::ifstream in(file_path);
@@ -125,7 +135,32 @@ namespace AdaptiveOA
             return m_k;
         }
 
-        private:
+        protected:
+
+        void set_random_instance()
+        {
+            for(unsigned int i(0); i < m_n; ++i)
+            {
+                for(unsigned int j(0); j < m_k1; ++j)
+                {
+                    unsigned int tmp = Random::get_uint_range(0,m_n);
+                    m_links[m_k1*i+j] = tmp;
+
+                    ++m_var_in_link_times[tmp*m_n+i];
+
+                    if(m_var_in_link_times[tmp*m_n+i] == 1)
+                    {
+                        m_var_in_links[tmp*m_n+m_var_in_links_sizes[tmp]] = i;
+                        ++m_var_in_links_sizes[tmp];
+                    }
+                }
+            }
+
+            for(unsigned int i(0); i < m_n*m_2k1; ++i)
+            {
+                m_matrix[i] = Random::get_uint_range(0,1000000);
+            }
+        }
 
         std::size_t m_n{0};
         std::size_t m_k{0};
