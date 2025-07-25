@@ -39,6 +39,31 @@ namespace AdaptiveOA
         {
             return static_cast<double>(std::rand()) / RAND_MAX < probability;
         }
+
+        /* Generates an approximation of number of successes following a binomial distribution such as :
+         * P : The probability of success
+         * N : The number of draws
+         * P = n/N
+         * n is given as a parameter
+         * The approximation is the same for every N
+         */
+        static unsigned int get_fast_binomial_distribution(unsigned int n)
+        {
+            ++n;
+            unsigned int random_generated = static_cast<unsigned int>(std::rand());
+            int tmp = 0;
+            tmp += random_generated % (6+n);
+            random_generated >>= 8;
+            tmp += random_generated % (6+n);
+            random_generated >>= 8;
+            tmp += random_generated % (6+n);
+            random_generated >>= 8;
+            tmp += random_generated % (6+n);
+
+            tmp = (n == 2) ? (tmp/4)-1 : ((tmp+1)/4)+(n/2)-2;
+
+            return (tmp <= 0) ? static_cast<unsigned int>(-tmp) : static_cast<unsigned int>(tmp-1);
+        }
     };
 
 } // namespace AdaptiveOA
