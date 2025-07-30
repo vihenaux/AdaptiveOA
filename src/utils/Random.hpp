@@ -25,7 +25,7 @@ namespace AdaptiveOA
             return min + (static_cast<unsigned int>(std::rand()) % (max - min + 1));
         }
 
-        static unsigned long get_uint_range(unsigned long min, unsigned long max)
+        static unsigned long get_ulong_range(unsigned long min, unsigned long max)
         {
             return min + (((static_cast<unsigned long>(std::rand()) << 32ul) + static_cast<unsigned long>(std::rand())) % (max - min + 1));
         }
@@ -60,7 +60,7 @@ namespace AdaptiveOA
             random_generated >>= 8;
             tmp += random_generated % (6+n);
 
-            tmp = (n == 2) ? (tmp/4)-1 : ((tmp+1)/4)+(n/2)-2;
+            tmp = (n == 2) ? (tmp/4)-1 : ((tmp+1)/4)+static_cast<int>(n/2)-2;
 
             return (tmp <= 0) ? static_cast<unsigned int>(-tmp) : static_cast<unsigned int>(tmp-1);
         }

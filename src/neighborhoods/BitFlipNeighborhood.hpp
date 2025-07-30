@@ -35,7 +35,7 @@ namespace AdaptiveOA
 
         BitFlip do_next_mutation()
         {
-            std::size_t neighbor_index = Random::get_uint_range(m_current_neighbor, m_neighbors.size()-1);
+            std::size_t neighbor_index = Random::get_uint_range(static_cast<unsigned int>(m_current_neighbor), static_cast<unsigned int>(m_neighbors.size()-1));
             std::swap(m_neighbors[m_current_neighbor], m_neighbors[neighbor_index]);
             return BitFlip{ m_neighbors[m_current_neighbor++] };
         }

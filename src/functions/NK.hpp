@@ -143,7 +143,7 @@ namespace AdaptiveOA
             {
                 for(unsigned int j(0); j < m_k1; ++j)
                 {
-                    unsigned int tmp = Random::get_uint_range(0,m_n);
+                    unsigned int tmp = Random::get_uint_range(0,static_cast<unsigned int>(m_n));
                     m_links[m_k1*i+j] = tmp;
 
                     ++m_var_in_link_times[tmp*m_n+i];
@@ -158,7 +158,7 @@ namespace AdaptiveOA
 
             for(unsigned int i(0); i < m_n*m_2k1; ++i)
             {
-                m_matrix[i] = Random::get_uint_range(0,1000000);
+                m_matrix[i] = Random::get_uint_range(0u,1000000u);
             }
         }
 

@@ -1,1 +1,1 @@
-cmake -S . -B build/
+cmake -DCMAKE_CXX_COMPILER=clang++ -S . -B build/
