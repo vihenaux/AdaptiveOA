@@ -5,7 +5,7 @@
 #include <sstream>
 #include "../core/SolutionBase.hpp"
 #include "../utils/Random.hpp"
-#include "../mutations/BitFlip.hpp"
+#include "../mutations/SeedMutation.hpp"
 
 namespace AdaptiveOA
 {
@@ -20,6 +20,8 @@ namespace AdaptiveOA
         friend SolutionBase<NKModel>;
 
         private:
+
+
 
         void do_randomize()
         {
@@ -44,12 +46,118 @@ namespace AdaptiveOA
             return oss.str();
         }
 
-        void do_mutate(const BitFlip& bitflip)
+        void do_mutate(const SeedMutation& seed)
         {
+            Random::set_seed(seed.get_seed());
+
+            unsigned int nb_cells_to_mutate = Random::get_fast_binomial_distribution(1);
+            unsigned int nb_links_to_mutate = Random::get_fast_binomial_distribution(1);
+            while(!nb_cells_to_mutate && !nb_links_to_mutate)
+            {
+                nb_cells_to_mutate = Random::get_fast_binomial_distribution(1);
+                nb_links_to_mutate = Random::get_fast_binomial_distribution(1);
+            }
+
+            for(unsigned int i(0); i < nb_cells_to_mutate; ++i)
+            {
+                unsigned int index = Random::get_uint_range(0, NK::m_matrix.size());
+                unsigned int tmp = NK::m_matrix[index];
+                tmp += Random::get_uint_range(1, 1000000);
+                tmp %= 1000001;
+                NK::m_matrix[index] = tmp;
+            }
+
+            for(unsigned int i(0); i < nb_links_to_mutate; ++i)
+            {
+                unsigned int index = Random::get_uint_range(0, NK::m_links.size());
+                unsigned int value_to_mutate = NK::m_links[index];
+                unsigned int link_index = index/NK::m_k1;
+
+                if(NK::m_var_in_link_times[value_to_mutate*m_n+link_index] > 1)
+                {
+                    --NK::m_var_in_link_times[value_to_mutate*m_n+link_index];
+                }
+                else
+                {
+                    NK::m_var_in_link_times[value_to_mutate*m_n+link_index] = 0;
+                    for(unsigned int j(0); j < m_var_in_links_sizes[value_to_mutate]; ++j)
+                    {
+                        if(m_var_in_links[value_to_mutate*m_n+j] == link_index)
+                        {
+                            --m_var_in_links_sizes[value_to_mutate];
+                            m_var_in_links[value_to_mutate*m_n+j] = m_var_in_links[value_to_mutate*m_n+m_var_in_links_sizes[value_to_mutate]];
+                            break;
+                        }
+                    }
+                }
+
+                NK::m_links[index] += Random::get_uint_range(1,m_n);
+                NK::m_links[index] %= m_n;
+
+                ++NK::m_var_in_link_times[value_to_mutate*m_n+link_index];
+                if(NK::m_var_in_link_times[value_to_mutate*m_n+link_index] == 1)
+                {
+                    ++m_var_in_links_sizes[value_to_mutate];
+                    m_var_in_links[value_to_mutate*m_n+m_var_in_links_sizes[value_to_mutate]] = NK::m_links[index];
+                }
+            }
         }
 
-        void do_reverse_mutation(const BitFlip& bitflip)
+        void do_reverse_mutation(const SeedMutation& seed)
         {
+            Random::set_seed(seed.get_seed());
+
+            unsigned int nb_cells_to_mutate = Random::get_fast_binomial_distribution(1);
+            unsigned int nb_links_to_mutate = Random::get_fast_binomial_distribution(1);
+            while(!nb_cells_to_mutate && !nb_links_to_mutate)
+            {
+                nb_cells_to_mutate = Random::get_fast_binomial_distribution(1);
+                nb_links_to_mutate = Random::get_fast_binomial_distribution(1);
+            }
+
+            for(unsigned int i(0); i < nb_cells_to_mutate; ++i)
+            {
+                unsigned int index = Random::get_uint_range(0, NK::m_matrix.size());
+                unsigned int tmp = NK::m_matrix[index];
+                tmp += 1000001-Random::get_uint_range(1, 1000000);
+                tmp %= 1000001;
+                NK::m_matrix[index] = tmp;
+            }
+
+            for(unsigned int i(0); i < nb_links_to_mutate; ++i)
+            {
+                unsigned int index = Random::get_uint_range(0, NK::m_links.size());
+                unsigned int value_to_mutate = NK::m_links[index];
+                unsigned int link_index = index/NK::m_k1;
+
+                if(NK::m_var_in_link_times[value_to_mutate*m_n+link_index] > 1)
+                {
+                    --NK::m_var_in_link_times[value_to_mutate*m_n+link_index];
+                }
+                else
+                {
+                    NK::m_var_in_link_times[value_to_mutate*m_n+link_index] = 0;
+                    for(unsigned int j(0); j < m_var_in_links_sizes[value_to_mutate]; ++j)
+                    {
+                        if(m_var_in_links[value_to_mutate*m_n+j] == link_index)
+                        {
+                            --m_var_in_links_sizes[value_to_mutate];
+                            m_var_in_links[value_to_mutate*m_n+j] = m_var_in_links[value_to_mutate*m_n+m_var_in_links_sizes[value_to_mutate]];
+                            break;
+                        }
+                    }
+                }
+
+                NK::m_links[index] += m_n-Random::get_uint_range(1,m_n);
+                NK::m_links[index] %= m_n;
+
+                ++NK::m_var_in_link_times[value_to_mutate*m_n+link_index];
+                if(NK::m_var_in_link_times[value_to_mutate*m_n+link_index] == 1)
+                {
+                    ++m_var_in_links_sizes[value_to_mutate];
+                    m_var_in_links[value_to_mutate*m_n+m_var_in_links_sizes[value_to_mutate]] = NK::m_links[index];
+                }
+            }
         }
     };
 

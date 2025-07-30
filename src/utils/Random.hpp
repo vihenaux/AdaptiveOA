@@ -10,9 +10,14 @@ namespace AdaptiveOA
     {
         public:
 
+        static void set_seed(unsigned int seed)
+        {
+            std::srand(seed);
+        }
+
         static void init()
         {
-            std::srand(static_cast<unsigned int>(std::time(nullptr)));
+            Random::set_seed(static_cast<unsigned int>(std::time(nullptr)));
         }
 
         static unsigned int get_uint()

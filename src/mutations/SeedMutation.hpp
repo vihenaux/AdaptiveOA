@@ -13,7 +13,7 @@ namespace AdaptiveOA
         SeedMutation() = delete;
         SeedMutation(std::size_t seed) : m_seed(seed) {}
 
-        std::size_t get_seed() const
+        unsigned int get_seed() const
         {
             return m_seed;
         }
@@ -33,7 +33,7 @@ namespace AdaptiveOA
         private:
 
 
-        std::size_t m_seed;
+        unsigned int m_seed;
     };
 
 }
