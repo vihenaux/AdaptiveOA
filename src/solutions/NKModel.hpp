@@ -21,8 +21,6 @@ namespace AdaptiveOA
 
         private:
 
-
-
         void do_randomize()
         {
             NK::set_random_instance();
@@ -32,11 +30,11 @@ namespace AdaptiveOA
         {
             std::ostringstream oss;
             oss << NK::m_n << " " << NK::m_k << "\n";
-            for(unsigned int link : m_links)
+            for(unsigned int link : NK::m_links)
             {
                 oss << link << "\n";
             }
-            for(unsigned int value : m_matrix)
+            for(unsigned int value : NK::m_matrix)
             {
                 if(value = 1000000)
                     oss << "1.000000\n";
@@ -73,32 +71,32 @@ namespace AdaptiveOA
                 unsigned int value_to_mutate = NK::m_links[index];
                 unsigned int link_index = index/NK::m_k1;
 
-                if(NK::m_var_in_link_times[value_to_mutate*m_n+link_index] > 1)
+                if(NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index] > 1)
                 {
-                    --NK::m_var_in_link_times[value_to_mutate*m_n+link_index];
+                    --NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index];
                 }
                 else
                 {
-                    NK::m_var_in_link_times[value_to_mutate*m_n+link_index] = 0;
-                    for(unsigned int j(0); j < m_var_in_links_sizes[value_to_mutate]; ++j)
+                    NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index] = 0;
+                    for(unsigned int j(0); j < NK::m_var_in_links_sizes[value_to_mutate]; ++j)
                     {
-                        if(m_var_in_links[value_to_mutate*m_n+j] == link_index)
+                        if(NK::m_var_in_links[value_to_mutate*NK::m_n+j] == link_index)
                         {
-                            --m_var_in_links_sizes[value_to_mutate];
-                            m_var_in_links[value_to_mutate*m_n+j] = m_var_in_links[value_to_mutate*m_n+m_var_in_links_sizes[value_to_mutate]];
+                            --NK::m_var_in_links_sizes[value_to_mutate];
+                            NK::m_var_in_links[value_to_mutate*NK::m_n+j] = NK::m_var_in_links[value_to_mutate*NK::m_n+NK::m_var_in_links_sizes[value_to_mutate]];
                             break;
                         }
                     }
                 }
 
-                NK::m_links[index] += Random::get_uint_range(1,m_n);
-                NK::m_links[index] %= m_n;
+                NK::m_links[index] += Random::get_uint_range(1,NK::m_n);
+                NK::m_links[index] %= NK::m_n;
 
-                ++NK::m_var_in_link_times[value_to_mutate*m_n+link_index];
-                if(NK::m_var_in_link_times[value_to_mutate*m_n+link_index] == 1)
+                ++NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index];
+                if(NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index] == 1)
                 {
-                    ++m_var_in_links_sizes[value_to_mutate];
-                    m_var_in_links[value_to_mutate*m_n+m_var_in_links_sizes[value_to_mutate]] = NK::m_links[index];
+                    ++NK::m_var_in_links_sizes[value_to_mutate];
+                    NK::m_var_in_links[value_to_mutate*NK::m_n+NK::m_var_in_links_sizes[value_to_mutate]] = NK::m_links[index];
                 }
             }
         }
@@ -130,32 +128,32 @@ namespace AdaptiveOA
                 unsigned int value_to_mutate = NK::m_links[index];
                 unsigned int link_index = index/NK::m_k1;
 
-                if(NK::m_var_in_link_times[value_to_mutate*m_n+link_index] > 1)
+                if(NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index] > 1)
                 {
-                    --NK::m_var_in_link_times[value_to_mutate*m_n+link_index];
+                    --NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index];
                 }
                 else
                 {
-                    NK::m_var_in_link_times[value_to_mutate*m_n+link_index] = 0;
-                    for(unsigned int j(0); j < m_var_in_links_sizes[value_to_mutate]; ++j)
+                    NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index] = 0;
+                    for(unsigned int j(0); j < NK::m_var_in_links_sizes[value_to_mutate]; ++j)
                     {
-                        if(m_var_in_links[value_to_mutate*m_n+j] == link_index)
+                        if(NK::m_var_in_links[value_to_mutate*NK::m_n+j] == link_index)
                         {
-                            --m_var_in_links_sizes[value_to_mutate];
-                            m_var_in_links[value_to_mutate*m_n+j] = m_var_in_links[value_to_mutate*m_n+m_var_in_links_sizes[value_to_mutate]];
+                            --NK::m_var_in_links_sizes[value_to_mutate];
+                            NK::m_var_in_links[value_to_mutate*NK::m_n+j] = NK::m_var_in_links[value_to_mutate*NK::m_n+NK::m_var_in_links_sizes[value_to_mutate]];
                             break;
                         }
                     }
                 }
 
-                NK::m_links[index] += m_n-Random::get_uint_range(1,m_n);
-                NK::m_links[index] %= m_n;
+                NK::m_links[index] += NK::m_n-Random::get_uint_range(1,NK::m_n);
+                NK::m_links[index] %= NK::m_n;
 
-                ++NK::m_var_in_link_times[value_to_mutate*m_n+link_index];
-                if(NK::m_var_in_link_times[value_to_mutate*m_n+link_index] == 1)
+                ++NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index];
+                if(NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index] == 1)
                 {
-                    ++m_var_in_links_sizes[value_to_mutate];
-                    m_var_in_links[value_to_mutate*m_n+m_var_in_links_sizes[value_to_mutate]] = NK::m_links[index];
+                    ++NK::m_var_in_links_sizes[value_to_mutate];
+                    NK::m_var_in_links[value_to_mutate*NK::m_n+NK::m_var_in_links_sizes[value_to_mutate]] = NK::m_links[index];
                 }
             }
         }
