@@ -31,6 +31,7 @@ add_compile_options(
 add_executable(adaptive_oa
     src/main.cpp
     src/solve.cpp
+    src/develop.cpp
 )
 
 # Include your header-only source tree

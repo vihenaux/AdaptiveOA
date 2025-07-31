@@ -37,6 +37,7 @@ namespace CLI
         ils_time_limit,
         ils_no_limit,
         ils_nb_random_mutation,
+        develop,
         // Add more options here
         count // Always keep this last to get the size of the enum
     };
@@ -72,7 +73,8 @@ namespace CLI
         {"--ils-function-call-limit", "10000", "sets the limit of function calls for the ILS"},
         {"--ils-time-limit", "1000", "sets the time limit for the ILS (in micro seconds)"},
         {"--ils-no-limit", "", "sets no limits for the ILS"},
-        {"--ils-nb-random-mutation", "10", "sets the number of random mutation to apply at each ILS cycle"}
+        {"--ils-nb-random-mutation", "10", "sets the number of random mutation to apply at each ILS cycle"},
+        {"--dev", "", "Runs the develop.cpp file. Useful to quickly run tests"}
     }};
 
     static Option find_option(std::string_view option_name)
