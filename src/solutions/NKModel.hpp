@@ -3,9 +3,11 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <iostream>
 #include "../core/SolutionBase.hpp"
 #include "../utils/Random.hpp"
 #include "../mutations/SeedMutation.hpp"
+#include "../functions/NK.hpp"
 
 namespace AdaptiveOA
 {
@@ -15,6 +17,7 @@ namespace AdaptiveOA
         public:
 
         NKModel() = delete;
+        NKModel(std::size_t n, std::size_t k) : NK(n, k) { do_randomize(); }
         NKModel(const std::string& file_path) : NK(file_path) {}
 
         friend SolutionBase<NKModel>;
@@ -36,7 +39,7 @@ namespace AdaptiveOA
             }
             for(unsigned int value : NK::m_matrix)
             {
-                if(value = 1000000)
+                if(value == 1000000)
                     oss << "1.000000\n";
                 else
                     oss << "0." << value << "\n";
@@ -58,7 +61,7 @@ namespace AdaptiveOA
 
             for(unsigned int i(0); i < nb_cells_to_mutate; ++i)
             {
-                unsigned int index = Random::get_uint_range(0, NK::m_matrix.size());
+                unsigned int index = Random::get_uint_range(0, static_cast<unsigned int>(NK::m_matrix.size()-1));
                 unsigned int tmp = NK::m_matrix[index];
                 tmp += Random::get_uint_range(1, 1000000);
                 tmp %= 1000001;
@@ -67,7 +70,7 @@ namespace AdaptiveOA
 
             for(unsigned int i(0); i < nb_links_to_mutate; ++i)
             {
-                unsigned int index = Random::get_uint_range(0, NK::m_links.size());
+                unsigned int index = Random::get_uint_range(0, static_cast<unsigned int>(NK::m_links.size()-1));
                 unsigned int value_to_mutate = NK::m_links[index];
                 unsigned int link_index = index/NK::m_k1;
 
@@ -89,7 +92,7 @@ namespace AdaptiveOA
                     }
                 }
 
-                NK::m_links[index] += Random::get_uint_range(1,NK::m_n);
+                NK::m_links[index] += Random::get_uint_range(1,static_cast<unsigned int>(NK::m_n-1));
                 NK::m_links[index] %= NK::m_n;
 
                 ++NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index];
@@ -115,7 +118,7 @@ namespace AdaptiveOA
 
             for(unsigned int i(0); i < nb_cells_to_mutate; ++i)
             {
-                unsigned int index = Random::get_uint_range(0, NK::m_matrix.size());
+                unsigned int index = Random::get_uint_range(0, static_cast<unsigned int>(NK::m_matrix.size()-1));
                 unsigned int tmp = NK::m_matrix[index];
                 tmp += 1000001-Random::get_uint_range(1, 1000000);
                 tmp %= 1000001;
@@ -124,7 +127,7 @@ namespace AdaptiveOA
 
             for(unsigned int i(0); i < nb_links_to_mutate; ++i)
             {
-                unsigned int index = Random::get_uint_range(0, NK::m_links.size());
+                unsigned int index = Random::get_uint_range(0, static_cast<unsigned int>(NK::m_links.size()-1));
                 unsigned int value_to_mutate = NK::m_links[index];
                 unsigned int link_index = index/NK::m_k1;
 
@@ -146,7 +149,7 @@ namespace AdaptiveOA
                     }
                 }
 
-                NK::m_links[index] += NK::m_n-Random::get_uint_range(1,NK::m_n);
+                NK::m_links[index] += NK::m_n-Random::get_uint_range(1,static_cast<unsigned int>(NK::m_n-1));
                 NK::m_links[index] %= NK::m_n;
 
                 ++NK::m_var_in_link_times[value_to_mutate*NK::m_n+link_index];

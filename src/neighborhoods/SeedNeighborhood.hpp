@@ -14,7 +14,7 @@ namespace AdaptiveOA
     {
         public:
 
-        friend NeighborhoodBase<BitFlipNeighborhood, BitFlip>;
+        friend NeighborhoodBase<SeedNeighborhood, SeedMutation>;
 
         private:
 

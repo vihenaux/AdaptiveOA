@@ -11,7 +11,7 @@ namespace AdaptiveOA
         public:
 
         SeedMutation() = delete;
-        SeedMutation(std::size_t seed) : m_seed(seed) {}
+        SeedMutation(unsigned int seed) : m_seed(seed) {}
 
         unsigned int get_seed() const
         {
@@ -25,15 +25,19 @@ namespace AdaptiveOA
             return oss.str();
         }
 
-        bool operator==(const BitFlip& mutation) const
+        bool operator==(const SeedMutation& mutation) const
         {
             return m_seed == mutation.m_seed;
         }
 
         private:
 
-
         unsigned int m_seed;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-private-field"
+        unsigned int padding{0};
+#pragma clang diagnostic pop
     };
 
 }
