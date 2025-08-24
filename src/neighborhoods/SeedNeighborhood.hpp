@@ -1,9 +1,6 @@
 #pragma once
 
-#include <algorithm>
-#include <vector>
 #include "../core/NeighborhoodBase.hpp"
-#include "../core/SolutionBase.hpp"
 #include "../mutations/SeedMutation.hpp"
 #include "../utils/Random.hpp"
 
