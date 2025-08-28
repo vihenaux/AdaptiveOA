@@ -49,7 +49,18 @@ namespace AdaptiveOA
 
         SpecificSeedMutation<NKModel> do_next_mutation()
         {
-            return SpecificSeedMutation<NKModel>{ Random::get_uint() , Random::get_fast_binomial_distribution(m_last_matrix_mutation) , Random::get_fast_binomial_distribution(m_last_links_mutation) };
+            auto select_mutation_parameters = [this](unsigned int& matrix_mutation, unsigned int& links_mutation) -> void {
+                matrix_mutation = Random::get_fast_binomial_distribution(m_last_matrix_mutation);
+                links_mutation = Random::get_fast_binomial_distribution(m_last_links_mutation);
+            };
+
+            unsigned int matrix_mutation = 0;
+            unsigned int links_mutation = 0;
+
+            while(matrix_mutation == 0 && links_mutation == 0)
+                select_mutation_parameters(matrix_mutation, links_mutation);
+
+            return SpecificSeedMutation<NKModel>{ Random::get_uint(), matrix_mutation, links_mutation };
         }
 
         void do_accept_mutation(const SpecificSeedMutation<NKModel>& m)
