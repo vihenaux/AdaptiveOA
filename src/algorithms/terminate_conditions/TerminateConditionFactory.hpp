@@ -2,9 +2,9 @@
 
 #include "../../core/FunctionBase.hpp"
 #include "TerminateConditionBase.hpp"
-#include "terminate_conditions/IterationLimit.hpp"
-#include "terminate_conditions/FunctionCallLimit.hpp"
-#include "terminate_conditions/TimeLimit.hpp"
+#include "impl/IterationLimit.hpp"
+#include "impl/FunctionCallLimit.hpp"
+#include "impl/TimeLimit.hpp"
 #include "../../utils/FastCLI.hpp"
 
 namespace AdaptiveOA

@@ -4,13 +4,13 @@
 #include "../core/SolutionBase.hpp"
 #include "../core/FunctionBase.hpp"
 #include "../core/NeighborhoodBase.hpp"
-#include "local_search_specifics/PivotRuleBase.hpp"
-#include "local_search_specifics/TerminateConditionBase.hpp"
-#include "local_search_specifics/TerminateConditionFactory.hpp"
-#include "local_search_specifics/PivotRuleFactory.hpp"
-#include "local_search_specifics/pivot_rules/BestImprovement.hpp"
-#include "local_search_specifics/pivot_rules/FirstImprovement.hpp"
-#include "local_search_specifics/terminate_conditions/NoLimit.hpp"
+#include "pivot_rules/PivotRuleBase.hpp"
+#include "pivot_rules/PivotRuleFactory.hpp"
+#include "terminate_conditions/TerminateConditionBase.hpp"
+#include "terminate_conditions/TerminateConditionFactory.hpp"
+#include "pivot_rules/impl/BestImprovement.hpp"
+#include "pivot_rules/impl/FirstImprovement.hpp"
+#include "terminate_conditions/impl/NoLimit.hpp"
 
 namespace AdaptiveOA
 {

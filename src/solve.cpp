@@ -12,15 +12,15 @@
 #include "neighborhoods/BitFlipNeighborhood.hpp"
 #include "solutions/BitString.hpp"
 
-#include "algorithms/local_search_specifics/pivot_rules/BestImprovement.hpp"
-#include "algorithms/local_search_specifics/pivot_rules/FirstImprovement.hpp"
-#include "algorithms/local_search_specifics/pivot_rules/SimulatedAnnealing.hpp"
-#include "algorithms/local_search_specifics/pivot_rules/Tabu.hpp"
-#include "algorithms/local_search_specifics/pivot_rules/WorstImprovement.hpp"
-#include "algorithms/local_search_specifics/terminate_conditions/NoLimit.hpp"
-#include "algorithms/local_search_specifics/terminate_conditions/IterationLimit.hpp"
-#include "algorithms/local_search_specifics/terminate_conditions/FunctionCallLimit.hpp"
-#include "algorithms/local_search_specifics/terminate_conditions/TimeLimit.hpp"
+#include "algorithms/pivot_rules/impl/BestImprovement.hpp"
+#include "algorithms/pivot_rules/impl/FirstImprovement.hpp"
+#include "algorithms/pivot_rules/impl/SimulatedAnnealing.hpp"
+#include "algorithms/pivot_rules/impl/Tabu.hpp"
+#include "algorithms/pivot_rules/impl/WorstImprovement.hpp"
+#include "algorithms/terminate_conditions/impl/NoLimit.hpp"
+#include "algorithms/terminate_conditions/impl/IterationLimit.hpp"
+#include "algorithms/terminate_conditions/impl/FunctionCallLimit.hpp"
+#include "algorithms/terminate_conditions/impl/TimeLimit.hpp"
 
 using namespace AdaptiveOA;
 

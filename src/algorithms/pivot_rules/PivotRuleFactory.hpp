@@ -2,8 +2,8 @@
 
 #include "PivotRuleBase.hpp"
 #include "../../utils/FastCLI.hpp"
-#include "pivot_rules/Tabu.hpp"
-#include "pivot_rules/SimulatedAnnealing.hpp"
+#include "impl/Tabu.hpp"
+#include "impl/SimulatedAnnealing.hpp"
 
 namespace AdaptiveOA
 {
