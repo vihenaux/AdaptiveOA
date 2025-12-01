@@ -1,83 +1,85 @@
-## 📋 `TODO.md`
+# TODO — AdaptiveOA
 
-```markdown
-# AdaptiveOA – Project TODO
-
-This document tracks the progress and design decisions of the AdaptiveOA framework, along with planned implementation steps.
+This document lists all planned extensions, assessments, and future developments for the AdaptiveOA framework.s
 
 ---
 
-## ✅ Completed
+## ⚙️ Core Framework
 
-- [x] Designed `SolutionBase` as a CRTP base class
-- [x] Defined `SolutionLike` concept for compile-time validation
+### ✅ Current State
+- Core CRTP-based architecture implemented (`AlgorithmBase`, `FunctionBase`, `NeighborhoodBase`, etc.).
+- Consistent compile-time interfaces for neighborhood exploration and evaluation.
+- Deterministic, minimal runtime overhead philosophy.
 
----
-
-## 🧠 Design Principles
-
-- Prefer CRTP over runtime polymorphism to enable compile-time resolution and avoid heap allocations
-- Use `concepts` for interface enforcement where possible
-- Minimize use of virtuals, dynamic memory, and pointer indirection
-- Ensure extensibility with clean separation of concerns (e.g., solutions, algorithms, mutations, functions)
+### 🧩 Planned
+- **Unit tests & example suite**  
+  Add small, isolated tests and simple example programs (e.g., single local search, ILS, ES).  
+  Goal: ensure stability and demonstrate intended API usage patterns.
 
 ---
 
-## 🔧 In Progress / Planned
+## 🔢 Algorithms
 
-### 📦 Core Components
+### ✅ Current State
+- Local search and iterated local search implemented.
+- Flexible mutation/pivot rule selection via CRTP.
+- Mutation selection concepts established.
 
-- [x] **Define Mutation Interface**
-  - [x] Assess whether an interface is needed
-  - [x] Options: CRTP base, simple base class, concept-only
-  - [x] Design pattern for reversible mutations (e.g. `apply()` / `undo()`)
-
-- [x] **Define `NeighborhoodBase`**
-  - [x] CRTP base class for generating neighbors
-  - [x] Should operate over a specific `SolutionLike`
-  - [x] Possibly templated on the `Mutation` type
-
-- [x] **Define `AlgorithmBase`**
-  - [x] CRTP base class for local search (and eventually other optimization algorithms)
-  - [x] Should support pluggable mutation + neighborhood + evaluation function
-  - [x] Design unified interface: `run(Solution&)` or similar
-
-- [x] **Define `FunctionBase`**
-  - [x] CRTP base for fitness/evaluation functions
-  - [x] Ensure compatibility with solution types
-  - [x] May include normalization/scaling
-
-### Algorithms
-
-- [x] **Implement `LocalSearch` **
-  - [x] PivotRuleBase
-  - [x] First improvement
-  - [x] Best improvement
-  - [x] Simulated annealing
-  - [x] Tabu
-  - [x] PivotRuleFactory
-  - [x] TerminateConditionBase
-  - [x] NoLimit
-  - [x] TimeLimit
-  - [x] IterationLimit
-  - [x] FunctionCallLimit
-  - [x] TerminateConditionFactory
-    
-### Solutions
-
-- [x] **Implement `BitstringSolution`**
-  - [x] Inherits from `SolutionBase<BitstringSolution>`
-  - [x] Stores a `std::vector<bool>` or bitset
-  - [x] Implements required `do_*` methods
-  - [x] Add example mutation (bit flip)
+### 🧩 Planned
+- **Evolution Strategies (μ, λ)**  
+  Implement a first (μ+λ) and (μ,λ) version of `EvolutionStrategy`.  
+  Use the current `PopulationMutation` and `MutationSelectionLike` concepts.  
+  Serve as the foundation for future population-based algorithm exploration.
 
 ---
 
-## 🧪 Testing & Utilities
+## 📦 Data Management & Persistence
 
-- [ ] Add unit tests for `SolutionBase` and `BitstringSolution`
-- [x] Add a deterministic `Random` singleton utility
-- [x] CLI interface for running experiments with parameterized configurations
+### 🧩 Planned
+- **Persistence / (De)Serialization**  
+  Implement state saving and loading for algorithms, solutions, and experiments.  
+  Necessary for large-scale experimentation, reproducibility, and checkpointing.
+
+---
+
+## 🧪 Benchmarking & Experimentation
+
+### 🧩 Assess
+- **Benchmark Class Design**  
+  Investigate a plug-in `Benchmark` CRTP class, attachable to any algorithm or function.  
+  Goal: transparent data collection (runtime, evaluations, mutations, improvements, etc.).  
+  Compare with standard benchmarking utilities for trade-offs between flexibility and performance.
+
+- **Standard Benchmark Harvesters**  
+  Define minimal, reusable components for tracking runtime metrics without requiring inheritance.
+
+---
+
+## 🧩 Algorithmic Self-Evolution (Long-Term)
+
+### 🧩 Planned
+- **Algorithm Hierarchies**  
+  Enable recursive composition of algorithms:  
+  e.g. `LocalSearch<LocalSearch<NK, BitFlip>, AlgoNeighborhood>`  
+  where an algorithm can itself be treated as a “function” to be optimized.  
+  This will form the base for evolutionary optimization of algorithms.
+
+- **Meta-Evolution Layer**  
+  Add a higher-order algorithm capable of evolving or adapting optimization functions themselves.  
+  Objective: experiment with meta-optimization of solvers using their own mechanisms.
+
+---
+
+## 🖥 Visualization & Reporting
+
+### 🧩 Long-Term
+- Add visualization and structured logging tools for:
+  - Performance curves
+  - Neighborhood traversal statistics
+  - Population dynamics
+  - Mutation diversity
+
+Keep these separate from core logic to maintain performance purity.
 
 ---
 
@@ -89,15 +91,11 @@ This document tracks the progress and design decisions of the AdaptiveOA framewo
 
 ---
 
-## 🌱 Future Work
+## 🧭 Guiding Principles
 
-- [ ] Add support for multi-objective optimization
-- [x] Add benchmark problems (e.g. MAXSAT, TSP, etc.)
-- [ ] Add performance profiling hooks
-- [ ] Add serialization for saving solutions/functions
-- [ ] Parallel/local-distributed execution model
+- **Compile-time composition** over runtime flexibility.
+- **Speed and determinism** take precedence over generality.
+- **Incremental generalization**: extend only when measurable benefit exists.
+- Maintain a **clean separation** between research-oriented abstractions and production efficiency.
 
 ---
-```
-
-Would you like me to save this as a file named `TODO.md` and attach it to this project?
