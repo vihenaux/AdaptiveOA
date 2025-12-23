@@ -85,7 +85,7 @@ Keep these separate from core logic to maintain performance purity.
 
 ## 📘 Documentation
 
-- [ ] Add `README.md` (once core components are established)
+- [x] Add `README.md` (once core components are established)
 - [ ] Document extension points: how to add new algorithms, solutions, etc.
 - [ ] Usage examples for each module (`BitstringSolution`, `LocalSearch`, etc.)
 
