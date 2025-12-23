@@ -92,9 +92,13 @@ void dispatch_algorithm(Solution&& sol, Function&& f, Neighborhood&& nh)
 
         std::cout << algo.best_score().value() << std::endl;
     }
-    if(CLI::is_option_activated(CLI::Option::iteratedlocalsearch))
+    else if(CLI::is_option_activated(CLI::Option::iteratedlocalsearch))
     {
         dispatch_ils<Solution, Function, Neighborhood, PivotRule, IterationLimit>(std::forward<Solution>(sol), std::forward<Function>(f), std::forward<Neighborhood>(nh));
+    }
+    else
+    {
+        std::cerr << "No optimization algorithm selected.\n";
     }
 }
 
