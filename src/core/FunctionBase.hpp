@@ -48,6 +48,11 @@ namespace AdaptiveOA
             return evaluation;
         }
 
+        Solution create_random_solution() const
+        {
+            return static_cast<const Derived*>(this)->do_create_random_solution();
+        }
+
         std::size_t get_nb_evaluations() const { return m_nb_evaluations; }
         void reset() const
         {

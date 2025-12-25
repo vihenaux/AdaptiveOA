@@ -185,7 +185,7 @@ void localsearch_solve()
     }
     else if(CLI::is_option_activated(CLI::Option::onemax))
     {
-        OneMax objective_function;
+        OneMax objective_function(static_cast<std::size_t>(std::stoi(std::string(get_option_value(CLI::Option::onemax)))));
         BitString solution(static_cast<std::size_t>(std::stoi(std::string(get_option_value(CLI::Option::onemax)))));
         dispatch_neighborhood(std::move(solution), std::move(objective_function));
     }

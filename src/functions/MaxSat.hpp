@@ -144,6 +144,11 @@ namespace AdaptiveOA
             return sum;
         }
 
+        BitString create_random_solution() const
+        {
+            return BitString{m_nb_literals};
+        }
+
         std::size_t get_nb_literals() const
         {
             return m_nb_literals;

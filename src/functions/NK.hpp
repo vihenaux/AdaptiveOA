@@ -125,6 +125,11 @@ namespace AdaptiveOA
             return sum;
         }
 
+        BitString create_random_solution() const
+        {
+            return BitString{m_n};
+        }
+
         std::size_t get_n() const
         {
             return m_n;
