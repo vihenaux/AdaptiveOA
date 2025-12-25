@@ -13,18 +13,4 @@ namespace AdaptiveOA
         std::derived_from<T, SolutionBase<T>> &&
         FunctionLike<T>;
 
-    template<FunctionLike FunctionType>
-    class GeneratedEvaluationFunction : public SolutionBase<GeneratedEvaluationFunction<FunctionType>>, public FunctionType
-    {
-        public:
-
-        template<typename>
-        static constexpr bool template_dependant_false = false;
-
-        GeneratedEvaluationFunction()
-        {
-            static_assert(template_dependant_false<FunctionType> && "This is the generic GeneratedEvaluationFunction class instenciation. You must specialize it in order to use it.");
-        }
-    };
-
 } // namespace AdaptiveOA
