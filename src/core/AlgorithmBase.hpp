@@ -35,6 +35,11 @@ namespace AdaptiveOA
         using Solution = SolutionT;
         using Function = FunctionT;
 
+        void run(const Function& fitness_function) {
+            auto solution = fitness_function.create_random_solution();
+            static_cast<Derived*>(this)->do_run(solution, fitness_function);
+        }
+
         void run(Solution& start, const Function& fitness_function) {
             static_cast<Derived*>(this)->do_run(start, fitness_function);
         }
