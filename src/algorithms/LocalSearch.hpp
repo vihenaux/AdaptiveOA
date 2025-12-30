@@ -31,7 +31,7 @@ namespace AdaptiveOA
     {
         public:
 
-        LocalSearch(Neighborhood && neighborhood) : m_neighborhood(std::move(neighborhood)) {}
+        LocalSearch(Neighborhood&& neighborhood) : m_neighborhood(std::move(neighborhood)) {}
 
         void do_run(Solution& solution, const Function& objective_function)
         {
