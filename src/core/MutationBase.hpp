@@ -25,6 +25,9 @@ namespace AdaptiveOA
     {
         public:
 
+        MutationBase() = default;
+        explicit MutationBase(bool neutral_mutation) : m_neutral_mutation(neutral_mutation) {}
+
         void set_score(Score s) const { m_score = s; }
         std::optional<Score> get_score() const { return m_score; }
 
@@ -33,9 +36,13 @@ namespace AdaptiveOA
             return static_cast<const Derived*>(this)->do_to_string();
         }
 
+        bool is_neutral() const { return m_neutral_mutation; }
+
         private:
 
-        mutable std::optional<Score> m_score;
+        mutable std::optional<Score> m_score{std::nullopt};
+        bool m_neutral_mutation{false};
+        char padding[7];
     };
 
 } // namespace AdaptiveOA
