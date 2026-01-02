@@ -1,6 +1,53 @@
 # TODO — AdaptiveOA
 
-This document lists all planned extensions, assessments, and future developments for the AdaptiveOA framework.s
+This document lists all planned extensions, assessments, and future developments for the AdaptiveOA framework.
+
+---
+
+## Future tasks
+
+### Make mutations compatible with population algorithms
+- [ ] Add the index of the solution that must be mutated in MutationBase
+- [ ] Assess the possibility to template the MutationBase on the necessity to manage populations
+  To use constexpr + requires
+  Assess the impact on derived classes and neighborhoods
+
+### Make neighborhoods compatible with population algorithms
+- [ ] Make NeighborhoodBase compatible with population algorithms
+  Maybe template NeighborhoodBase on the necessity to manage populations
+  constexpr + requires
+  Specific methods for populations, already defined in order to not enforce their definition in the derived classes
+- [ ] Update BitFlipNeighborhood with NeighborhoodBase addition (population)
+- [ ] Update SeedNeighborhood with NeighborhoodBase addition (population)
+- [ ] Update SpecificSeedNeighborhood with NeighborhoodBase addition (population)
+- [ ] Remove PopulationMutationNeighborhood
+
+### Mutation selections
+- [ ] Choose the implementation of the SelectionMutationBase from the three already defined
+- [ ] Implement the BestSelectionMutation
+- [ ] Implement the TournamentSelectionMutation
+- [ ] Implement the WeightedRandomSelectionMutation
+
+### Neutral mutations
+- [ ] In SolutionBase check for neutral mutation and do not apply them
+
+### Try set best solution
+- [ ] In the LocalSearch algorithm use the try_set_best_solution method where needed
+- [ ] In the IteratedLocalSearch algorithm use the try_set_best_solution method where needed
+
+### Offspring generation
+- [ ] Implement an OffspringGenerationBase
+  From a vector of Solution and a neighborhood create a vector of mutations
+- [ ] Implement an OffspringGenerationFactory
+
+### EvolutionStrategy
+- [ ] Commit current state of the EvolutionStrategy
+- [ ] Use the try_set_best_solution where possible
+- [ ] Template on the terminate condition and implement
+- [ ] Template on the offspring generation and implement
+- [ ] Template on the mutation selection and implement
+- [ ] Try set the best solution from the selected mutations
+- [ ] Implement an algorithm to compose the new population from the selected mutations in order to minimize solution copies
 
 ---
 
