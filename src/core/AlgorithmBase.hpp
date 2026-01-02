@@ -62,6 +62,16 @@ namespace AdaptiveOA
             m_best_solution = std::move(sol);
         }
 
+        void try_set_best_solution(const Solution& sol) {
+            if(m_best_solution.get_score() < sol.get_score())
+                m_best_solution = sol;
+        }
+
+        void try_set_best_solution(Solution&& sol) {
+            if(m_best_solution.get_score() < sol.get_score())
+                m_best_solution = std::move(sol);
+        }
+
         private:
 
         std::optional<Solution> m_best_solution;
