@@ -50,8 +50,16 @@ namespace AdaptiveOA
             static_cast<Derived*>(this)->do_reverse_mutation(mutation);
         }
 
-        void set_score(Score s) const { m_score = s; }
-        std::optional<Score> get_score() const { return m_score; }
+        void set_score(Score s) const
+        {
+            m_score = s;
+        }
+
+        std::optional<Score> get_score() const
+        {
+            return m_score;
+        }
+
         void invalidate_score() const
         {
             m_score.reset();

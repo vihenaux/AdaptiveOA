@@ -35,41 +35,54 @@ namespace AdaptiveOA
         using Solution = SolutionT;
         using Function = FunctionT;
 
-        void run(const Function& fitness_function) {
+        void run(const Function& fitness_function)
+        {
             auto solution = fitness_function.create_random_solution();
             static_cast<Derived*>(this)->do_run(solution, fitness_function);
         }
 
-        void run(Solution& start, const Function& fitness_function) {
+        void run(Solution& start, const Function& fitness_function)
+        {
             static_cast<Derived*>(this)->do_run(start, fitness_function);
         }
 
-        const Solution& best_solution() const {
+        const Solution& best_solution() const
+        {
             return *m_best_solution;
         }
 
-        std::optional<Score> best_score() const {
+        std::optional<Score> best_score() const
+        {
             return (m_best_solution) ? m_best_solution->get_score() : std::nullopt;
         }
 
         protected:
 
-        void set_best_solution(const Solution& sol) {
+        void set_best_solution(const Solution& sol)
+        {
             m_best_solution = sol;
         }
 
-        void set_best_solution(Solution&& sol) {
+        void set_best_solution(Solution&& sol)
+        {
             m_best_solution = std::move(sol);
         }
 
-        void try_set_best_solution(const Solution& sol) {
+        void try_set_best_solution(const Solution& sol)
+        {
             if(m_best_solution.get_score() < sol.get_score())
                 m_best_solution = sol;
         }
 
-        void try_set_best_solution(Solution&& sol) {
+        void try_set_best_solution(Solution&& sol)
+        {
             if(m_best_solution.get_score() < sol.get_score())
                 m_best_solution = std::move(sol);
+        }
+
+        void reset_best_solution()
+        {
+            m_best_solution.reset();
         }
 
         private:

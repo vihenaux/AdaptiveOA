@@ -28,15 +28,25 @@ namespace AdaptiveOA
         MutationBase() = default;
         explicit MutationBase(bool neutral_mutation) : m_neutral_mutation(neutral_mutation) {}
 
-        void set_score(Score s) const { m_score = s; }
-        std::optional<Score> get_score() const { return m_score; }
+        void set_score(Score s) const
+        {
+            m_score = s;
+        }
+
+        std::optional<Score> get_score() const
+        {
+            return m_score;
+        }
 
         std::string to_string() const
         {
             return static_cast<const Derived*>(this)->do_to_string();
         }
 
-        bool is_neutral() const { return m_neutral_mutation; }
+        bool is_neutral() const
+        {
+            return m_neutral_mutation;
+        }
 
         private:
 

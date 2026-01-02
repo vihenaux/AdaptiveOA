@@ -10,7 +10,7 @@ namespace AdaptiveOA
         public:
 
         template<FunctionLike Function>
-        void update(const Function&) { }
+        void update(const Function&) {}
 
         bool should_terminate() const
         {

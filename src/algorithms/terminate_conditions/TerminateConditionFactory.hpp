@@ -26,7 +26,7 @@ namespace AdaptiveOA
     requires TerminateConditionLike<IterationLimit, Function>
     class TerminateConditionFactory<IterationLimit, Function>
     {
-    public:
+        public:
 
         static IterationLimit create()
         {
@@ -38,7 +38,7 @@ namespace AdaptiveOA
     requires TerminateConditionLike<FunctionCallLimit, Function>
     class TerminateConditionFactory<FunctionCallLimit, Function>
     {
-    public:
+        public:
 
         static FunctionCallLimit create()
         {
@@ -50,7 +50,7 @@ namespace AdaptiveOA
     requires TerminateConditionLike<TimeLimit, Function>
     class TerminateConditionFactory<TimeLimit, Function>
     {
-    public:
+        public:
 
         static TimeLimit create()
         {
